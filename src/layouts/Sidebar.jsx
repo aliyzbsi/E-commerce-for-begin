@@ -17,14 +17,14 @@ function Sidebar({ loggedUser, sepet, sideBarFilter, setSideBarFilter }) {
   });
 
   const { register, handleSubmit } = useForm({
-    mode: "all",
+    mode: "onChange",
   });
 
   const onSubmit = (data) => {
     const filtered = product.filter((item) => {
-      const matchName = item.title
-        .toLowerCase()
-        .includes(data.productName?.toLowerCase() || "");
+      const matchName = data.productName
+        ? item.title.toLowerCase().includes(data.productName.toLowerCase())
+        : true;
       const minPrice = data.minPrice
         ? item.price >= parseFloat(data.minPrice)
         : true;
@@ -38,6 +38,7 @@ function Sidebar({ loggedUser, sepet, sideBarFilter, setSideBarFilter }) {
 
       return matchName && minPrice && maxPrice && matchCategory;
     });
+
     setSideBarFilter(filtered);
   };
 
@@ -121,6 +122,12 @@ function Sidebar({ loggedUser, sepet, sideBarFilter, setSideBarFilter }) {
         )
       ) : (
         <p>Ürünleri Görmek için Giriş Yapınız</p>
+      )}
+
+      {sideBarFilter.length === 0 && (
+        <p className="text-red-500 font-semibold">
+          Aranan kriterde ürün bulunamamıştır.
+        </p>
       )}
     </div>
   );
