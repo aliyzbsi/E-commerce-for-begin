@@ -15,6 +15,8 @@ function MainContent({
   setLoggedUser,
   sepet,
   setSepet,
+  adresInfo,
+  setAdresInfo,
 }) {
   return (
     <div className="flex flex-col flex-wrap w-full p-4  border-2 border-black rounded-2xl">
@@ -38,7 +40,14 @@ function MainContent({
               />
               <Route
                 path="/sepet/adres"
-                element={<AdresForm sepet={sepet} setSepet={setSepet} />}
+                element={
+                  <AdresForm
+                    sepet={sepet}
+                    setSepet={setSepet}
+                    adresInfo={adresInfo}
+                    setAdresInfo={setAdresInfo}
+                  />
+                }
               />
               <Route
                 path="/sepet/odeme"

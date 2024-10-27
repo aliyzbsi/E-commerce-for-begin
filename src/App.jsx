@@ -11,6 +11,7 @@ function App() {
   const [loggedUser, setLoggedUser] = useLocaleStorage("user", "");
   const [sepet, setSepet] = useLocaleStorage("sepet", []);
   const [sideBarFilter, setSideBarFilter] = useState([]);
+  const [adresInfo, setAdresInfo] = useState("adres", []);
 
   return (
     <>
@@ -35,6 +36,8 @@ function App() {
               sepet={sepet}
               setSepet={setSepet}
               sideBarFilter={sideBarFilter}
+              adresInfo={adresInfo}
+              setAdresInfo={setAdresInfo}
             />
           </div>
         </div>
