@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function SepetSidebar({ sepet }) {
   const [indirimTutari, setIndirimTutari] = useState(0);
+  const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
@@ -80,6 +83,44 @@ function SepetSidebar({ sepet }) {
         <div className="border-b-2 border-black p-2 flex justify-between font-bold">
           <span>Toplam:</span> <span>{toplamTutar.toFixed(2)}₺</span>
         </div>
+        {location.pathname === "/sepet" ? (
+          <div>
+            <button
+              onClick={() => navigate("/sepet/adres")}
+              className="mt-2 bg-blue-600 text-white rounded p-2 w-full"
+            >
+              Ürünleri Kontrol Ettim
+            </button>
+          </div>
+        ) : location.pathname === "/sepet/adres" ? (
+          <div>
+            <button
+              onClick={() => navigate("/sepet/odeme")}
+              className="mt-2 bg-blue-600 text-white rounded p-2 w-full"
+            >
+              Ödemeye Geç
+            </button>
+            <div>
+              <p>adres bilgiler</p>
+            </div>
+          </div>
+        ) : location.pathname === "/sepet/odeme" ? (
+          <div>
+            <button
+              onClick={() => navigate("/")}
+              className="mt-2 bg-blue-600 text-white rounded p-2 w-full"
+            >
+              Ödemeye Yap
+            </button>
+            <div>
+              <p>adres bilgileri</p>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <p>adres bilgileri</p>
+          </div>
+        )}
       </div>
     </div>
   );

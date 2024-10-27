@@ -18,7 +18,7 @@ function Products({ products, sideBarFilter, sepet, setSepet }) {
   return (
     <div className="p-4">
       {products.length > 0 && (
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
           {products.map((item) => (
             <li
               key={item.id}
@@ -39,7 +39,7 @@ function Products({ products, sideBarFilter, sepet, setSepet }) {
                   />
                   <p className="font-semibold">{item.title}</p>
                 </div>
-                <div className="p-2 flex w-44 md:w-72 lg:w-44  flex-grow">
+                <div className="p-2 flex w-72 md:w-72 lg:w-72  flex-grow">
                   <p className="text-gray-700  line-clamp-3 ">
                     {item.description}
                   </p>

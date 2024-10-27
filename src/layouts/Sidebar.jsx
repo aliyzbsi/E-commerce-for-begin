@@ -67,14 +67,14 @@ function Sidebar({ loggedUser, sepet, sideBarFilter, setSideBarFilter }) {
                     {...register("productName")}
                   />
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col  gap-2">
                   <label
                     htmlFor="minPrice"
                     className="font-semibold border-b-2 text-center border-black"
                   >
                     Fiyat Aralığı
                   </label>
-                  <div className="flex items-center w-full justify-between">
+                  <div className="flex flex-col md:flex-col lg:flex-row  items-center w-full  justify-between">
                     <input
                       type="number"
                       id="minPrice"
@@ -110,10 +110,17 @@ function Sidebar({ loggedUser, sepet, sideBarFilter, setSideBarFilter }) {
                 >
                   Filtrele
                 </button>
+                {sideBarFilter.length === 0 && (
+                  <p className="text-red-500 font-semibold">
+                    Aranan kriterde ürün bulunamamıştır.
+                  </p>
+                )}
               </div>
             )}
           </form>
-        ) : location.pathname === "/sepet" ? (
+        ) : location.pathname === "/sepet" ||
+          location.pathname === "/sepet/odeme" ||
+          location.pathname === "/sepet/adres" ? (
           <div>
             <SepetSidebar sepet={sepet} />
           </div>
@@ -122,12 +129,6 @@ function Sidebar({ loggedUser, sepet, sideBarFilter, setSideBarFilter }) {
         )
       ) : (
         <p>Ürünleri Görmek için Giriş Yapınız</p>
-      )}
-
-      {sideBarFilter.length === 0 && (
-        <p className="text-red-500 font-semibold">
-          Aranan kriterde ürün bulunamamıştır.
-        </p>
       )}
     </div>
   );

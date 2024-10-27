@@ -6,6 +6,8 @@ import Basket from "../components/Basket";
 import ProductItem from "../components/ProductItem";
 import { useQuery } from "@tanstack/react-query";
 import { getFilteredProduct } from "../services/apiService";
+import AdresForm from "../components/AdresForm";
+import PaymentInfo from "../components/PaymentInfo";
 
 function MainContent({
   loggedUser,
@@ -33,6 +35,14 @@ function MainContent({
               <Route
                 path="/sepet"
                 element={<Basket sepet={sepet} setSepet={setSepet} />}
+              />
+              <Route
+                path="/sepet/adres"
+                element={<AdresForm sepet={sepet} setSepet={setSepet} />}
+              />
+              <Route
+                path="/sepet/odeme"
+                element={<PaymentInfo sepet={sepet} setSepet={setSepet} />}
               />
               <Route
                 path="/product/:id"
