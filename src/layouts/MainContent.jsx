@@ -46,6 +46,8 @@ function MainContent({
                     setSepet={setSepet}
                     adresInfo={adresInfo}
                     setAdresInfo={setAdresInfo}
+                    setLoggedUser={setLoggedUser}
+                    loggedUser={loggedUser}
                   />
                 }
               />

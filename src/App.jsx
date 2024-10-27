@@ -11,7 +11,7 @@ function App() {
   const [loggedUser, setLoggedUser] = useLocaleStorage("user", "");
   const [sepet, setSepet] = useLocaleStorage("sepet", []);
   const [sideBarFilter, setSideBarFilter] = useState([]);
-  const [adresInfo, setAdresInfo] = useState("adres", []);
+  const [adresInfo, setAdresInfo] = useLocaleStorage("adres", []);
 
   return (
     <>
@@ -23,6 +23,7 @@ function App() {
             sepet={sepet}
             setSepet={setSepet}
           />
+
           <div className="flex flex-col md:flex-row gap-2 ">
             <Sidebar
               loggedUser={loggedUser}
