@@ -9,6 +9,7 @@ import { useTheme } from "./context/ThemeContext";
 const queryClient = new QueryClient();
 
 function App() {
+  const [loggedUser, setLoggedUser] = useLocaleStorage("user", "");
   const [sepet, setSepet] = useLocaleStorage("sepet", []);
   const [sideBarFilter, setSideBarFilter] = useState([]);
   const [adresInfo, setAdresInfo] = useLocaleStorage("adres", []);
