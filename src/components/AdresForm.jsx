@@ -3,12 +3,19 @@ import { useEffect, useState } from "react";
 import { cityData } from "../services/cityData";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { data } from "autoprefixer";
 
-function AdresForm({ adresInfo, setAdresInfo, loggedUser }) {
+import { RiDeleteBin5Line } from "react-icons/ri";
+
+function AdresForm({
+  adresInfo,
+  setAdresInfo,
+  selectedAdres,
+  setSelectedAdres,
+  loggedUser,
+}) {
   const [sehirler, setSehirler] = useState(cityData);
   const [ilceler, setIlceler] = useState([]);
-  const [selectedAdres, setSelectedAdres] = useState(null);
+
   const navigate = useNavigate();
 
   const {
@@ -16,7 +23,9 @@ function AdresForm({ adresInfo, setAdresInfo, loggedUser }) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ mode: "onChange" });
+  } = useForm({
+    mode: "onChange",
+  });
 
   const handleCityChange = (event) => {
     const selectedCity = event.target.value;
@@ -25,16 +34,34 @@ function AdresForm({ adresInfo, setAdresInfo, loggedUser }) {
   };
 
   const adresSubmitFn = (data) => {
-    const newAdres = { ...data, userId: loggedUser };
+    const newAdres = { ...data, userId: loggedUser, id: Date.now() };
 
-    setAdresInfo((prevAdres) => {
-      const updatedAdres = [...prevAdres, newAdres];
+    const adresControl = adresInfo.find(
+      (item) =>
+        item.adresBasligi === data.adresBasligi ||
+        item.adresInfo === data.adresInfo
+    );
 
-      setAdresInfo(updatedAdres);
-      return updatedAdres;
-    });
+    if (!adresControl) {
+      setAdresInfo((prevAdres) => {
+        const updatedAdres = [...prevAdres, newAdres];
 
-    toast.success("Adres kaydedildi");
+        setAdresInfo(updatedAdres);
+        setSelectedAdres(updatedAdres);
+
+        return updatedAdres;
+      });
+      setSelectedAdres(data);
+      toast.success("Adres kaydedildi");
+    } else {
+      toast.warning("Bu adres zaten kayıtlı !");
+    }
+  };
+  const savedAdresRemove = (id) => {
+    const remove = adresInfo.filter((item) => item.id !== id);
+
+    setAdresInfo(remove);
+    toast.success("Adres silindi");
   };
 
   useEffect(() => {
@@ -240,12 +267,18 @@ function AdresForm({ adresInfo, setAdresInfo, loggedUser }) {
         {adresInfo
           .filter((item) => item.userId === loggedUser)
           .map((item, index) => (
-            <div key={index}>
+            <div key={index} className="flex gap-4">
               <button
                 onClick={() => setSelectedAdres(item)}
                 className="bg-blue-600 text-center hover:bg-blue-500 p-2 text-white rounded-lg w-full text-left transition duration-200 ease-in-out"
               >
                 {item.adresBasligi}
+              </button>
+              <button
+                onClick={() => savedAdresRemove(item.id)}
+                className="transform transition duration-300 hover:scale-125"
+              >
+                <RiDeleteBin5Line size={25} />
               </button>
             </div>
           ))}

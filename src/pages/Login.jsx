@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-function Login() {
+function Login({ setLoggedUser }) {
   const navigate = useNavigate();
   const {
     register,

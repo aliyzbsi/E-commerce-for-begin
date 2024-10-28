@@ -5,7 +5,13 @@ import { useLocation } from "react-router-dom";
 import SepetSidebar from "../components/SepetSidebar";
 import { useTheme } from "../context/ThemeContext";
 
-function Sidebar({ loggedUser, sepet, sideBarFilter, setSideBarFilter }) {
+function Sidebar({
+  loggedUser,
+  sepet,
+  sideBarFilter,
+  setSideBarFilter,
+  selectedAdres,
+}) {
   const location = useLocation();
   const {
     data: product = [],
@@ -16,6 +22,7 @@ function Sidebar({ loggedUser, sepet, sideBarFilter, setSideBarFilter }) {
     queryKey: ["categories"],
     queryFn: getFilteredProduct,
   });
+  console.log("sidebar adres", selectedAdres);
 
   const { register, handleSubmit } = useForm({
     mode: "onChange",
@@ -127,7 +134,7 @@ function Sidebar({ loggedUser, sepet, sideBarFilter, setSideBarFilter }) {
           location.pathname === "/sepet/odeme" ||
           location.pathname === "/sepet/adres" ? (
           <div>
-            <SepetSidebar sepet={sepet} />
+            <SepetSidebar sepet={sepet} selectedAdres={selectedAdres} />
           </div>
         ) : (
           <div>hangi sayfaysa artık</div>

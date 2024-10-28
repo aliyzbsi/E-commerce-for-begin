@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function SepetSidebar({ sepet }) {
+function SepetSidebar({ sepet, selectedAdres }) {
   const [indirimTutari, setIndirimTutari] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,12 +33,13 @@ function SepetSidebar({ sepet }) {
   };
 
   useEffect(() => {
+    console.log("sepet sidebar", selectedAdres);
     const guncelToplamTutar =
       araToplam - indirimTutari < 0
         ? kargoBedeli
         : araToplam - indirimTutari + kargoBedeli;
     setToplamTutar(guncelToplamTutar);
-  }, [araToplam, indirimTutari, kargoBedeli]);
+  }, [araToplam, indirimTutari, kargoBedeli, selectedAdres]);
 
   return (
     <div className="flex flex-col gap-8">
@@ -95,13 +96,48 @@ function SepetSidebar({ sepet }) {
         ) : location.pathname === "/sepet/adres" ? (
           <div>
             <button
-              onClick={() => navigate("/sepet/odeme")}
+              onClick={() =>
+                selectedAdres
+                  ? navigate("/sepet/odeme")
+                  : alert("Adres Bilgileriniz Eksik !")
+              }
               className="mt-2 bg-blue-600 text-white rounded p-2 w-full"
             >
               Ödemeye Geç
             </button>
-            <div>
-              <p>adres bilgiler</p>
+            <div className="  mt-4">
+              {selectedAdres ? (
+                <div className="border rounded-lg flex flex-col gap-2 border-black p-4">
+                  <p>
+                    <span className="font-bold">Ad Soyad:</span>{" "}
+                    <span className="text-base font-normal">
+                      {selectedAdres.name} {selectedAdres.surname}
+                    </span>
+                  </p>
+                  <p>
+                    <span className="font-bold">Adres Tipi:</span>{" "}
+                    <span className="text-base font-normal">
+                      {selectedAdres.adresBasligi}
+                    </span>
+                  </p>
+                  <p>
+                    <span className="font-bold">Adres:</span>{" "}
+                    <span className="text-base font-normal">
+                      {selectedAdres.adresInfo}
+                    </span>
+                  </p>
+                  <p>
+                    <span className="font-bold">İl / İlçe:</span>{" "}
+                    <span className="text-base font-normal">
+                      {selectedAdres.city}/{selectedAdres.town}
+                    </span>
+                  </p>
+                </div>
+              ) : (
+                <p className="text-red-500">
+                  Adres giriniz veya kayıtlı adres seçiniz !
+                </p>
+              )}
             </div>
           </div>
         ) : location.pathname === "/sepet/odeme" ? (
@@ -113,7 +149,40 @@ function SepetSidebar({ sepet }) {
               Ödemeye Yap
             </button>
             <div>
-              <p>adres bilgileri</p>
+              <div className="  mt-4">
+                {selectedAdres ? (
+                  <div className="border rounded-lg flex flex-col gap-2 border-black p-4">
+                    <p>
+                      <span className="font-bold">Ad Soyad:</span>{" "}
+                      <span className="text-base font-normal">
+                        {selectedAdres.name} {selectedAdres.surname}
+                      </span>
+                    </p>
+                    <p>
+                      <span className="font-bold">Adres Tipi:</span>{" "}
+                      <span className="text-base font-normal">
+                        {selectedAdres.adresBasligi}
+                      </span>
+                    </p>
+                    <p>
+                      <span className="font-bold">Adres:</span>{" "}
+                      <span className="text-base font-normal">
+                        {selectedAdres.adresInfo}
+                      </span>
+                    </p>
+                    <p>
+                      <span className="font-bold">İl / İlçe:</span>{" "}
+                      <span className="text-base font-normal">
+                        {selectedAdres.city}/{selectedAdres.town}
+                      </span>
+                    </p>
+                  </div>
+                ) : (
+                  <p className="text-red-500">
+                    Adres giriniz veya kayıtlı adres seçiniz !
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         ) : (

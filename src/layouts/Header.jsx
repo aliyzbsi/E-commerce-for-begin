@@ -8,6 +8,7 @@ function Header({ loggedUser, setLoggedUser, sepet, setSepet }) {
 
   const handleLogOut = () => {
     setLoggedUser(null);
+    setSepet(null);
     navigate("/login");
   };
 

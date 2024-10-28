@@ -13,6 +13,10 @@ function App() {
   const [sepet, setSepet] = useLocaleStorage("sepet", []);
   const [sideBarFilter, setSideBarFilter] = useState([]);
   const [adresInfo, setAdresInfo] = useLocaleStorage("adres", []);
+  const [selectedAdres, setSelectedAdres] = useLocaleStorage(
+    "selectedAdres",
+    null
+  );
   const { theme } = useTheme();
   return (
     <>
@@ -37,6 +41,8 @@ function App() {
               sideBarFilter={sideBarFilter}
               setSideBarFilter={setSideBarFilter}
               sepet={sepet}
+              selectedAdres={selectedAdres}
+              setSelectedAdres={setSelectedAdres}
             />
             <MainContent
               loggedUser={loggedUser}
@@ -46,6 +52,8 @@ function App() {
               sideBarFilter={sideBarFilter}
               adresInfo={adresInfo}
               setAdresInfo={setAdresInfo}
+              selectedAdres={selectedAdres}
+              setSelectedAdres={setSelectedAdres}
             />
           </div>
         </div>
