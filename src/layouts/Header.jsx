@@ -1,6 +1,7 @@
 import { IoBagHandleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
+import ThemeToggleButton from "../components/ThemeToggleButton";
 
 function Header({ loggedUser, setLoggedUser, sepet, setSepet }) {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ function Header({ loggedUser, setLoggedUser, sepet, setSepet }) {
         WORKINTECH COMMERCE
       </h1>
       <div className="flex flex-col md:flex-row items-center gap-4 mt-2 md:mt-0">
+        <ThemeToggleButton />
         <button
           onClick={() => navigate("/")}
           className="px-4 py-1 rounded-full border-2 border-black font-bold hover:bg-blue-400 hover:text-white hover:border-none"

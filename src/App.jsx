@@ -4,19 +4,25 @@ import Header from "./layouts/Header";
 import MainContent from "./layouts/MainContent";
 import Sidebar from "./layouts/Sidebar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useTheme } from "./context/ThemeContext";
 
 const queryClient = new QueryClient();
 
 function App() {
-  const [loggedUser, setLoggedUser] = useLocaleStorage("user", "");
   const [sepet, setSepet] = useLocaleStorage("sepet", []);
   const [sideBarFilter, setSideBarFilter] = useState([]);
   const [adresInfo, setAdresInfo] = useLocaleStorage("adres", []);
-
+  const { theme } = useTheme();
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <div className=" h-screen ">
+        <div
+          className={
+            theme === "light"
+              ? "bg-white text-black h-full"
+              : "bg-black text-white h-full"
+          }
+        >
           <Header
             loggedUser={loggedUser}
             setLoggedUser={setLoggedUser}

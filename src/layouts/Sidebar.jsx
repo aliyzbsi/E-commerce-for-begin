@@ -3,6 +3,7 @@ import { getFilteredProduct, getProduct } from "../services/apiService";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import SepetSidebar from "../components/SepetSidebar";
+import { useTheme } from "../context/ThemeContext";
 
 function Sidebar({ loggedUser, sepet, sideBarFilter, setSideBarFilter }) {
   const location = useLocation();
@@ -19,7 +20,7 @@ function Sidebar({ loggedUser, sepet, sideBarFilter, setSideBarFilter }) {
   const { register, handleSubmit } = useForm({
     mode: "onChange",
   });
-
+  const { theme } = useTheme();
   const onSubmit = (data) => {
     const filtered = product.filter((item) => {
       const matchName = data.productName
@@ -62,7 +63,11 @@ function Sidebar({ loggedUser, sepet, sideBarFilter, setSideBarFilter }) {
                   <input
                     type="text"
                     id="productName"
-                    className="border-2 w-full border-black rounded-full p-2"
+                    className={
+                      theme === "light"
+                        ? "border-2 w-full border-black rounded-full p-2"
+                        : "border-2 w-full border-black rounded-full p-2 text-black"
+                    }
                     placeholder="Ürün adı"
                     {...register("productName")}
                   />

@@ -3,7 +3,7 @@ import Products from "../components/Products";
 import { getFilteredProduct, getProduct } from "../services/apiService";
 import { useState } from "react";
 
-function Home({ sepet, sideBarFilter, setSepet }) {
+function Home({ sepet, sideBarFilter, setSepet, loggedUser }) {
   const {
     data: categories = [],
     error: categoryError,
@@ -65,6 +65,7 @@ function Home({ sepet, sideBarFilter, setSepet }) {
           products={filteredProducts}
           sepet={sepet}
           setSepet={setSepet}
+          loggedUser={loggedUser}
         />
       </div>
     </div>

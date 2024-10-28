@@ -4,10 +4,9 @@ import Login from "../pages/Login";
 
 import Basket from "../components/Basket";
 import ProductItem from "../components/ProductItem";
-import { useQuery } from "@tanstack/react-query";
-import { getFilteredProduct } from "../services/apiService";
 import AdresForm from "../components/AdresForm";
 import PaymentInfo from "../components/PaymentInfo";
+import { useTheme } from "../context/ThemeContext";
 
 function MainContent({
   loggedUser,
@@ -31,6 +30,7 @@ function MainContent({
                     sepet={sepet}
                     setSepet={setSepet}
                     sideBarFilter={sideBarFilter}
+                    loggedUser={loggedUser}
                   />
                 }
               />

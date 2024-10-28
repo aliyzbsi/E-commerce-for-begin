@@ -26,11 +26,14 @@ function AdresForm({ adresInfo, setAdresInfo, loggedUser }) {
 
   const adresSubmitFn = (data) => {
     const newAdres = { ...data, userId: loggedUser };
+
     setAdresInfo((prevAdres) => {
       const updatedAdres = [...prevAdres, newAdres];
-      localStorage.setItem("adres", JSON.stringify(updatedAdres));
+
+      setAdresInfo(updatedAdres);
       return updatedAdres;
     });
+
     toast.success("Adres kaydedildi");
   };
 
@@ -215,7 +218,7 @@ function AdresForm({ adresInfo, setAdresInfo, loggedUser }) {
           <div className="flex justify-between">
             <button
               type="button"
-              onClick={() => reset(data)}
+              onClick={() => navigate("/sepet")}
               className="text-gray-600 hover:text-blue-600 transform transition duration-300"
             >
               Vazgeç
