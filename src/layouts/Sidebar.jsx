@@ -8,9 +8,11 @@ import { useTheme } from "../context/ThemeContext";
 function Sidebar({
   loggedUser,
   sepet,
+  setSepet,
   sideBarFilter,
   setSideBarFilter,
   selectedAdres,
+  setCardInfo,
   cardInfo,
 }) {
   const location = useLocation();
@@ -139,6 +141,8 @@ function Sidebar({
               sepet={sepet}
               selectedAdres={selectedAdres}
               cardInfo={cardInfo}
+              setCardInfo={setCardInfo}
+              setSepet={setSepet}
             />
           </div>
         ) : (

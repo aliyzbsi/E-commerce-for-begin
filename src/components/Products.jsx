@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { useLocaleStorage } from "../hooks/useLocaleStorage";
 
 function Products({ products, sideBarFilter, sepet, setSepet }) {
   const navigate = useNavigate();
 
   const AddSepet = (item) => {
     const urunIndex = sepet.findIndex((urun) => urun.id === item.id);
-
     if (urunIndex !== -1) {
       const yeniSepet = [...sepet];
       yeniSepet[urunIndex].adet += 1;

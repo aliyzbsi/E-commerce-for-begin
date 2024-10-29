@@ -153,12 +153,18 @@ function PaymentInfo({ setCardInfo }) {
               </p>
               <input
                 id="cvc"
-                type="number"
+                type="text"
                 placeholder="CVC"
+                maxLength={3}
+                minLength={3}
                 className="border-2 border-black rounded-lg w-32 px-4 py-2"
                 onFocus={() => setCvcActive(true)} // onFocus ile giriş yapıldığında
                 {...register("cvc", {
                   required: "CVC zorunludur",
+                  pattern: {
+                    value: /^[0-9]{3}$/, // Sadece 3 haneli rakamları kabul et
+                    message: "CVC 3 haneli olmalıdır",
+                  },
                   minLength: {
                     value: 3,
                     message: "CVC 3 haneli olmalıdır",

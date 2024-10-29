@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function SepetSidebar({ sepet, selectedAdres, cardInfo }) {
+function SepetSidebar({
+  sepet,
+  setSepet,
+  selectedAdres,
+  cardInfo,
+  setCardInfo,
+}) {
   const [indirimTutari, setIndirimTutari] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
@@ -86,7 +92,13 @@ function SepetSidebar({ sepet, selectedAdres, cardInfo }) {
         {location.pathname === "/sepet" ? (
           <div>
             <button
-              onClick={() => navigate("/sepet/adres")}
+              onClick={() => {
+                if (sepet.length > 0) {
+                  navigate("/sepet/adres");
+                } else {
+                  alert("sepetiniz boş");
+                }
+              }}
               className="mt-2 bg-blue-600 text-white rounded p-2 w-full"
             >
               Ürünleri Kontrol Ettim
@@ -144,11 +156,16 @@ function SepetSidebar({ sepet, selectedAdres, cardInfo }) {
             <button
               onClick={() => {
                 if (cardInfo) {
+                  console.log("card ınfo", cardInfo);
+                  setCardInfo(null);
+                  setSepet([]);
                   localStorage.setItem("myCard", JSON.stringify(null));
+                  localStorage.setItem("sepet", JSON.stringify([]));
                   navigate("/siparisbasarili");
                 } else {
                   localStorage.setItem("myCard", JSON.stringify(null));
-                  navigate("/siparisbasarisiz");
+                  setCardInfo(null);
+                  alert("kart bilgileriniz eksik !");
                 }
               }}
               className="mt-2 bg-blue-600 text-white rounded p-2 w-full"

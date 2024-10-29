@@ -13,6 +13,7 @@ function Login({ setLoggedUser }) {
   } = useForm({ mode: "onChange" });
   const submitFn = (data) => {
     if (!isValid) return;
+
     setLoggedUser(data.email);
     navigate("/");
   };
