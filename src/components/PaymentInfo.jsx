@@ -60,7 +60,7 @@ function PaymentInfo({ setCardInfo }) {
   };
 
   return (
-    <div className="flex flex-col items-center md:flex-row gap-4">
+    <div className="flex flex-col   items-center md:flex-row gap-4">
       <form onSubmit={handleSubmit(kartSubmit)} className="w-full md:w-1/2 p-4">
         <div className="flex flex-col  w-96">
           <label htmlFor="cardNumber">
@@ -159,19 +159,17 @@ function PaymentInfo({ setCardInfo }) {
                 minLength={3}
                 className="border-2 border-black rounded-lg w-32 px-4 py-2"
                 onFocus={() => setCvcActive(true)} // onFocus ile giriş yapıldığında
+                onInput={(e) => {
+                  // Sadece rakamların kalmasını sağlıyoruz
+                  e.target.value = e.target.value
+                    .replace(/[^0-9]/g, "")
+                    .slice(0, 3);
+                }}
                 {...register("cvc", {
                   required: "CVC zorunludur",
-                  pattern: {
-                    value: /^[0-9]{3}$/, // Sadece 3 haneli rakamları kabul et
-                    message: "CVC 3 haneli olmalıdır",
-                  },
-                  minLength: {
-                    value: 3,
-                    message: "CVC 3 haneli olmalıdır",
-                  },
-                  maxLength: {
-                    value: 3,
-                    message: "CVC 3 haneli olmalıdır",
+                  validate: {
+                    length: (value) =>
+                      value.length === 3 || "CVC 3 haneli olmalıdır",
                   },
                   onBlur: () => {
                     setCvcActive(false); // Burada onBlur olayını işleyin
