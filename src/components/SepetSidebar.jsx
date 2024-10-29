@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function SepetSidebar({ sepet, selectedAdres }) {
+function SepetSidebar({ sepet, selectedAdres, cardInfo }) {
   const [indirimTutari, setIndirimTutari] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,7 +33,6 @@ function SepetSidebar({ sepet, selectedAdres }) {
   };
 
   useEffect(() => {
-    console.log("sepet sidebar", selectedAdres);
     const guncelToplamTutar =
       araToplam - indirimTutari < 0
         ? kargoBedeli
@@ -143,7 +142,15 @@ function SepetSidebar({ sepet, selectedAdres }) {
         ) : location.pathname === "/sepet/odeme" ? (
           <div>
             <button
-              onClick={() => navigate("/")}
+              onClick={() => {
+                if (cardInfo) {
+                  localStorage.setItem("myCard", JSON.stringify(null));
+                  navigate("/siparisbasarili");
+                } else {
+                  localStorage.setItem("myCard", JSON.stringify(null));
+                  navigate("/siparisbasarisiz");
+                }
+              }}
               className="mt-2 bg-blue-600 text-white rounded p-2 w-full"
             >
               Ödemeye Yap

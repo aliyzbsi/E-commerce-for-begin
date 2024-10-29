@@ -17,6 +17,7 @@ function App() {
     "selectedAdres",
     null
   );
+  const [cardInfo, setCardInfo] = useLocaleStorage("myCard", null);
   const { theme } = useTheme();
   return (
     <>
@@ -43,6 +44,7 @@ function App() {
               sepet={sepet}
               selectedAdres={selectedAdres}
               setSelectedAdres={setSelectedAdres}
+              cardInfo={cardInfo}
             />
             <MainContent
               loggedUser={loggedUser}
@@ -54,6 +56,8 @@ function App() {
               setAdresInfo={setAdresInfo}
               selectedAdres={selectedAdres}
               setSelectedAdres={setSelectedAdres}
+              cardInfo={cardInfo}
+              setCardInfo={setCardInfo}
             />
           </div>
         </div>

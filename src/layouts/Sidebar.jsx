@@ -11,6 +11,7 @@ function Sidebar({
   sideBarFilter,
   setSideBarFilter,
   selectedAdres,
+  cardInfo,
 }) {
   const location = useLocation();
   const {
@@ -134,7 +135,11 @@ function Sidebar({
           location.pathname === "/sepet/odeme" ||
           location.pathname === "/sepet/adres" ? (
           <div>
-            <SepetSidebar sepet={sepet} selectedAdres={selectedAdres} />
+            <SepetSidebar
+              sepet={sepet}
+              selectedAdres={selectedAdres}
+              cardInfo={cardInfo}
+            />
           </div>
         ) : (
           <div>hangi sayfaysa artık</div>

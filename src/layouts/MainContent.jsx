@@ -18,6 +18,8 @@ function MainContent({
   setAdresInfo,
   selectedAdres,
   setSelectedAdres,
+  cardInfo,
+  setCardInfo,
 }) {
   return (
     <div className="flex flex-col flex-wrap w-full p-4  border-2 border-black rounded-2xl">
@@ -63,7 +65,14 @@ function MainContent({
               />
               <Route
                 path="/sepet/odeme"
-                element={<PaymentInfo sepet={sepet} setSepet={setSepet} />}
+                element={
+                  <PaymentInfo
+                    sepet={sepet}
+                    setSepet={setSepet}
+                    cardInfo={cardInfo}
+                    setCardInfo={setCardInfo}
+                  />
+                }
               />
               <Route
                 path="/product/:id"
