@@ -17,10 +17,13 @@ Kurulum Talimatları
 Projenin Klonlanması:
 
 git clone https://github.com/aliyzbsi/E-commerce-for-begin.git
+
 Bağımlılıkların Yüklenmesi: Proje dizinine gidin ve bağımlılıkları yüklemek için:
 
 cd E-commerce-for-begin
+
 npm install
+
 Geliştirme Sunucusunu Başlatma:
 
 npm run dev
