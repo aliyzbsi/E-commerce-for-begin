@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function SepetSidebar({
   sepet,
@@ -96,7 +97,7 @@ function SepetSidebar({
                 if (sepet.length > 0) {
                   navigate("/sepet/adres");
                 } else {
-                  alert("sepetiniz boş");
+                  toast.error("Sepetiniz boş !");
                 }
               }}
               className="mt-2 bg-blue-600 text-white rounded p-2 w-full"
@@ -110,7 +111,9 @@ function SepetSidebar({
               onClick={() =>
                 selectedAdres
                   ? navigate("/sepet/odeme")
-                  : alert("Adres Bilgileriniz Eksik !")
+                  : toast.warning(
+                      "Adres bilgileriniz eksik yada hatalı girilmiş !"
+                    )
               }
               className="mt-2 bg-blue-600 text-white rounded p-2 w-full"
             >
@@ -162,10 +165,13 @@ function SepetSidebar({
                   localStorage.setItem("myCard", JSON.stringify(null));
                   localStorage.setItem("sepet", JSON.stringify([]));
                   navigate("/siparisbasarili");
+                  toast.success("Sipariş alındı");
                 } else {
                   localStorage.setItem("myCard", JSON.stringify(null));
                   setCardInfo(null);
-                  alert("kart bilgileriniz eksik !");
+                  toast.warning(
+                    "Kart bilgileriniz eksik yada hatalı girilmiş ! "
+                  );
                 }
               }}
               className="mt-2 bg-blue-600 text-white rounded p-2 w-full"
