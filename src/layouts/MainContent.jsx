@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 
@@ -51,27 +51,35 @@ function MainContent({
               <Route
                 path="/sepet/adres"
                 element={
-                  <AdresForm
-                    sepet={sepet}
-                    setSepet={setSepet}
-                    adresInfo={adresInfo}
-                    setAdresInfo={setAdresInfo}
-                    setLoggedUser={setLoggedUser}
-                    loggedUser={loggedUser}
-                    selectedAdres={selectedAdres}
-                    setSelectedAdres={setSelectedAdres}
-                  />
+                  sepet.length > 0 ? (
+                    <AdresForm
+                      sepet={sepet}
+                      setSepet={setSepet}
+                      adresInfo={adresInfo}
+                      setAdresInfo={setAdresInfo}
+                      setLoggedUser={setLoggedUser}
+                      loggedUser={loggedUser}
+                      selectedAdres={selectedAdres}
+                      setSelectedAdres={setSelectedAdres}
+                    />
+                  ) : (
+                    <Navigate to="/sepet" replace />
+                  )
                 }
               />
               <Route
                 path="/sepet/odeme"
                 element={
-                  <PaymentInfo
-                    sepet={sepet}
-                    setSepet={setSepet}
-                    cardInfo={cardInfo}
-                    setCardInfo={setCardInfo}
-                  />
+                  selectedAdres ? (
+                    <PaymentInfo
+                      sepet={sepet}
+                      setSepet={setSepet}
+                      cardInfo={cardInfo}
+                      setCardInfo={setCardInfo}
+                    />
+                  ) : (
+                    <Navigate to="/sepet/adres" replace />
+                  )
                 }
               />
               <Route

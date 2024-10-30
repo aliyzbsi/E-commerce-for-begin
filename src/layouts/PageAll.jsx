@@ -1,3 +1,4 @@
+/*
 import { useState } from "react";
 import { useLocaleStorage } from "../hooks/useLocaleStorage";
 import Header from "./Header";
@@ -48,3 +49,4 @@ function PageAll() {
 }
 
 export default PageAll;
+*/
