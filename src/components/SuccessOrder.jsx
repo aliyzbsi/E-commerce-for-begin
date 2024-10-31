@@ -1,5 +1,5 @@
 function SuccessOrder({ orderDetails }) {
-  const { sepet, selectedAdres, timestamp } = orderDetails; // timestamp değişti
+  const { sepet, selectedAdres, timestamp } = orderDetails;
   console.log("sepet details", sepet);
   console.log("adres details", selectedAdres);
   console.log(timestamp);
@@ -8,7 +8,6 @@ function SuccessOrder({ orderDetails }) {
     <div className="flex flex-col gap-4">
       <h1>Sipariş Özeti</h1>
       <h2>{new Date(timestamp).toLocaleString()}</h2>{" "}
-      {/* timestamp'ı formatlayarak göster */}
       {sepet.map((item) => (
         <div
           className="flex items-center gap-4 border-2 p-2 w-full"
@@ -18,7 +17,6 @@ function SuccessOrder({ orderDetails }) {
           <p>{item.title}</p>
         </div>
       ))}
-      {/* selectedAdres bir nesne ise direkt erişim yapmalısınız */}
       <div className="border rounded-lg flex flex-col gap-2 border-black p-4">
         <p>
           <span className="font-bold">Ad Soyad:</span>{" "}
