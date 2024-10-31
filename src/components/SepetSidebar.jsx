@@ -9,8 +9,11 @@ function SepetSidebar({
   selectedAdres,
   cardInfo,
   setCardInfo,
+  orderDetails,
+  setOrderDetails,
 }) {
   const [indirimTutari, setIndirimTutari] = useState(0);
+  const olusturulmaTarihi = new Date(orderDetails.time);
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -159,12 +162,18 @@ function SepetSidebar({
             <button
               onClick={() => {
                 if (cardInfo) {
+                  setOrderDetails({
+                    sepet,
+                    selectedAdres,
+                    timestamp: Date.now(),
+                  });
                   console.log("card ınfo", cardInfo);
                   setCardInfo(null);
                   setSepet([]);
                   localStorage.setItem("myCard", JSON.stringify(null));
                   localStorage.setItem("sepet", JSON.stringify([]));
-                  navigate("/siparisbasarili");
+                  navigate("/order-success");
+
                   toast.success("Sipariş alındı");
                 } else {
                   localStorage.setItem("myCard", JSON.stringify(null));

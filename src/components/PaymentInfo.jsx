@@ -3,7 +3,6 @@ import chipImage from "../assets/chip.png";
 import { RiVisaLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useLocaleStorage } from "../hooks/useLocaleStorage";
 
 function PaymentInfo({ setCardInfo }) {
   const {
@@ -43,9 +42,7 @@ function PaymentInfo({ setCardInfo }) {
       .trim();
   };
 
-  useEffect(() => {
-    console.log(cvcActive);
-  }, [cvcActive]);
+  useEffect(() => {}, [cvcActive]);
 
   const kartSubmit = (data) => {
     setCardInfo(data);

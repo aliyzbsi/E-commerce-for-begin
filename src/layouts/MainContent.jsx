@@ -7,6 +7,8 @@ import ProductItem from "../components/ProductItem";
 import AdresForm from "../components/AdresForm";
 import PaymentInfo from "../components/PaymentInfo";
 import { useTheme } from "../context/ThemeContext";
+import OrderFailed from "../components/OrderFailed";
+import SuccessOrder from "../components/SuccessOrder";
 
 function MainContent({
   loggedUser,
@@ -20,6 +22,8 @@ function MainContent({
   setSelectedAdres,
   cardInfo,
   setCardInfo,
+  orderDetails,
+  setOrderDetails,
 }) {
   return (
     <div className="flex flex-col flex-wrap w-full p-4  border-2 border-black rounded-2xl">
@@ -72,8 +76,6 @@ function MainContent({
                 element={
                   selectedAdres ? (
                     <PaymentInfo
-                      sepet={sepet}
-                      setSepet={setSepet}
                       cardInfo={cardInfo}
                       setCardInfo={setCardInfo}
                     />
@@ -86,6 +88,11 @@ function MainContent({
                 path="/product/:id"
                 element={<ProductItem sepet={sepet} setSepet={setSepet} />}
               />
+              <Route
+                path="/order-success"
+                element={<SuccessOrder orderDetails={orderDetails} />}
+              />
+              <Route path="/failed-order" element={<OrderFailed />} />
             </>
           ) : (
             <Route

@@ -14,6 +14,8 @@ function Sidebar({
   selectedAdres,
   setCardInfo,
   cardInfo,
+  orderDetails,
+  setOrderDetails,
 }) {
   const location = useLocation();
   const {
@@ -25,7 +27,6 @@ function Sidebar({
     queryKey: ["categories"],
     queryFn: getFilteredProduct,
   });
-  console.log("sidebar adres", selectedAdres);
 
   const { register, handleSubmit } = useForm({
     mode: "onChange",
@@ -143,6 +144,8 @@ function Sidebar({
               cardInfo={cardInfo}
               setCardInfo={setCardInfo}
               setSepet={setSepet}
+              orderDetails={orderDetails}
+              setOrderDetails={setOrderDetails}
             />
           </div>
         ) : (

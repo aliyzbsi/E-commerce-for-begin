@@ -11,9 +11,11 @@ const queryClient = new QueryClient();
 function App() {
   const [loggedUser, setLoggedUser] = useLocaleStorage("user", "");
   const [sepet, setSepet] = useLocaleStorage("sepet", []);
-  console.log("Sepet Değeri:", sepet); // Sepeti kontrol et
+
   const [sideBarFilter, setSideBarFilter] = useState([]);
   const [adresInfo, setAdresInfo] = useLocaleStorage("adres", []);
+  const [orderDetails, setOrderDetails] = useState([]);
+
   const [selectedAdres, setSelectedAdres] = useLocaleStorage(
     "selectedAdres",
     null
@@ -30,8 +32,8 @@ function App() {
       <div
         className={
           theme === "light"
-            ? "bg-white text-black h-full"
-            : "bg-black text-white h-full"
+            ? "bg-white text-black h-screen"
+            : "bg-black text-white h-screen"
         }
       >
         <Header
@@ -52,6 +54,8 @@ function App() {
             cardInfo={cardInfo}
             setCardInfo={setCardInfo}
             setSepet={setSepet}
+            orderDetails={orderDetails}
+            setOrderDetails={setOrderDetails}
           />
           <MainContent
             loggedUser={loggedUser}
@@ -65,6 +69,8 @@ function App() {
             setSelectedAdres={setSelectedAdres}
             cardInfo={cardInfo}
             setCardInfo={setCardInfo}
+            orderDetails={orderDetails}
+            setOrderDetails={setOrderDetails}
           />
         </div>
       </div>
