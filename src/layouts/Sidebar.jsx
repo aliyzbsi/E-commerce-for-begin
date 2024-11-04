@@ -129,7 +129,7 @@ function Sidebar({
 
                 <button
                   type="submit"
-                  className="w-full bg-blue-600  font-semibold rounded-full p-3 hover:bg-blue-700 transition"
+                  className="w-full bg-blue-600 text-white font-semibold rounded-full p-3 hover:bg-blue-700 transition"
                 >
                   Filtrele
                 </button>
