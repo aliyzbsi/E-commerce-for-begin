@@ -27,13 +27,13 @@ function Products({ products, sideBarFilter, sepet, setSepet }) {
           {products.map((item) => (
             <li
               key={item.id}
-              className="flex flex-col border border-gray-200 p-4 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 bg-white"
+              className="flex flex-col border border-gray-200 p-4 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300"
             >
               <div
                 onClick={() => navigate(`/product/${item.id}`)}
                 className="flex flex-col items-center cursor-pointer"
               >
-                <p className="bg-black text-white rounded-full px-4 py-1 mb-3 text-center w-full">
+                <p className="  rounded-full px-4 py-1 mb-3 text-center w-full">
                   {item.category}
                 </p>
 
@@ -43,19 +43,13 @@ function Products({ products, sideBarFilter, sepet, setSepet }) {
                   alt={item.title}
                 />
 
-                <p className="font-semibold text-center text-gray-800 mb-2">
-                  {item.title}
-                </p>
+                <p className="font-semibold text-center  mb-2">{item.title}</p>
               </div>
 
-              <p className="text-gray-600 text-sm line-clamp-3 mb-4">
-                {item.description}
-              </p>
+              <p className=" text-sm line-clamp-3 mb-4">{item.description}</p>
 
               <div className="flex justify-between items-center mt-auto">
-                <p className="font-semibold text-lg text-black">
-                  {item.price}₺
-                </p>
+                <p className="font-semibold text-lg ">{item.price}₺</p>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
