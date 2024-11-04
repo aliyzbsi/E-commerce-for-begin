@@ -28,7 +28,7 @@ function Header({ loggedUser, setLoggedUser, sepet, setSepet }) {
     <div
       className={`${
         theme === "light" ? "bg-white text-black" : "bg-black text-white"
-      } w-full flex flex-wrap items-center justify-between border-b-4 border-black p-4 md:p-6 lg:p-8 mb-4 fixed z-40 `}
+      } w-full flex flex-wrap items-center justify-center md:justify-between border-b-4 border-black p-4 md:p-6 lg:p-8 mb-4 fixed z-40 `}
     >
       <h1 className="font-bold text-xl md:text-2xl lg:text-3xl text-center md:text-left">
         WORKINTECH COMMERCE
@@ -76,7 +76,7 @@ function Header({ loggedUser, setLoggedUser, sepet, setSepet }) {
                   theme === "light"
                     ? "bg-white text-black"
                     : "bg-black text-white"
-                } absolute right-0 top-16 mt-3 w-72 md:w-80  border border-gray-300 shadow-lg p-4 rounded-lg z-20 `}
+                } absolute right-0 top-16 mt-36 md:mt-12 w-72 md:w-80  border border-gray-300 shadow-lg p-4 rounded-lg z-20 `}
               >
                 <h3 className="font-bold mb-2">Sepetiniz</h3>
                 {sepet?.length ? (

@@ -41,7 +41,7 @@ function App() {
           setSepet={setSepet}
         />
 
-        <div className="flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8 w-full max-w-screen-4xl mx-auto px-4 pt-20 md:pt-32 lg:pt-40 pb-10">
+        <div className="flex flex-col mt-44 md:mt-2 md:flex-row gap-4 md:gap-6 lg:gap-8 w-full max-w-screen-4xl mx-auto px-4 pt-20 md:pt-32 lg:pt-40 pb-10">
           <Sidebar
             loggedUser={loggedUser}
             sideBarFilter={sideBarFilter}

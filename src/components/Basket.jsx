@@ -39,6 +39,7 @@ function Basket({ sepet, setSepet }) {
         <BsBasket size={25} />
         Sepet ({sepet.length})
       </h1>
+      <p>hediye100 ve hediye200 kodları ile sepette indirim</p>
       <ul className="flex flex-col gap-4 py-4">
         {sepet.map((item) => (
           <li key={item.id}>
