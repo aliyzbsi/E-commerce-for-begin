@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import Products from "../components/Products";
 import { getFilteredProduct, getProduct } from "../services/apiService";
 import { useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 
 function Home({ sepet, sideBarFilter, setSepet, loggedUser }) {
   const {
@@ -37,30 +38,35 @@ function Home({ sepet, sideBarFilter, setSepet, loggedUser }) {
 
     return matchesSidebarFilter && matchesSelectedCategory;
   });
-
+  const { theme } = useTheme();
   if (isLoadingCategories || isLoadingProducts) return <p>Loading...</p>;
   if (categoryError || productError) return <p>Error loading data</p>;
 
   return (
-    <div>
-      <div className="flex items-center justify-around flex-wrap gap-2 p-4 ">
+    <div
+      className={`${
+        theme === "light" ? "bg-white text-black" : "bg-black text-white"
+      } w-full p-4`}
+    >
+      <div className="flex flex-wrap items-center justify-center gap-4 p-4  border-b-2 ">
         <button
-          className="border-2 border-black uppercase hover:bg-red-500 hover:text-white hover:border-red-500 px-4 py-2 rounded-2xl"
+          className="border-2  uppercase hover:bg-red-500 hover:text-white hover:border-red-500 px-6 py-2 rounded-2xl transition-all duration-200"
           onClick={() => filteredCategory("Tüm Ürünler")}
         >
           Tüm Ürünler
         </button>
         {categories.map((category, index) => (
           <button
-            className="border-2 border-black uppercase hover:bg-red-500 hover:text-white hover:border-red-500 px-4 py-2 rounded-2xl"
             key={index}
+            className="border-2  uppercase hover:bg-red-500 hover:text-white hover:border-red-500 px-6 py-2 rounded-2xl transition-all duration-200"
             onClick={() => filteredCategory(category)}
           >
             {category}
           </button>
         ))}
       </div>
-      <div>
+
+      <div className="mt-4">
         <Products
           products={filteredProducts}
           sepet={sepet}

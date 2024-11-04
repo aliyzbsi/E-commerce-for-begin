@@ -55,18 +55,22 @@ function Sidebar({
   };
 
   return (
-    <div className="border-2 border-black rounded-xl p-4 flex flex-col w-full md:w-1/3 gap-4">
-      <h1 className="font-bold text-lg">ÜRÜNLER</h1>
+    <div
+      className={`${
+        theme === "light" ? "bg-white text-black" : "bg-black text-white"
+      } border-2 border-gray-300 rounded-xl p-6 flex flex-col w-full md:w-2/5 lg:w-1/3 gap-6  shadow-lg`}
+    >
+      <h1 className="font-bold text-xl">ÜRÜNLER</h1>
       {loggedUser ? (
         location.pathname === "/" ? (
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {isLoading && <p>Loading...</p>}
-            {error && <p>Error loading products</p>}
+            {error && <p className="text-red-500">Error loading products</p>}
             {product.length > 0 && (
-              <div className="flex flex-col gap-8">
-                <div className="flex flex-col p-2 gap-2">
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-2">
                   <label
-                    className="font-semibold border-b-2 text-center border-black"
+                    className="font-semibold border-b-2 text-center border-gray-300 pb-1"
                     htmlFor="productName"
                   >
                     Ürün Adı
@@ -74,60 +78,64 @@ function Sidebar({
                   <input
                     type="text"
                     id="productName"
-                    className={
-                      theme === "light"
-                        ? "border-2 w-full border-black rounded-full p-2"
-                        : "border-2 w-full border-black rounded-full p-2 text-black"
-                    }
+                    className={`border-2 border-gray-300 text-black w-full rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500`}
                     placeholder="Ürün adı"
                     {...register("productName")}
                   />
                 </div>
-                <div className="flex flex-col  gap-2">
+
+                <div className="flex flex-col gap-2">
                   <label
                     htmlFor="minPrice"
-                    className="font-semibold border-b-2 text-center border-black"
+                    className="font-semibold border-b-2 text-center border-gray-300 pb-1"
                   >
                     Fiyat Aralığı
                   </label>
-                  <div className="flex flex-col md:flex-col lg:flex-row  items-center w-full  justify-between">
+                  <div className="flex flex-col lg:flex-row items-center gap-4 justify-between">
                     <input
                       type="number"
                       id="minPrice"
-                      placeholder="min"
-                      className="border-2 p-2 rounded-full border-black"
+                      placeholder="Min"
+                      className="border-2 border-gray-300 w-full text-black rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       {...register("minPrice")}
                     />
-                    <span className="font-bold text-xl">-</span>
+                    <span className="font-bold text-xl ">-</span>
                     <input
                       type="number"
-                      placeholder="max"
-                      className="border-2 p-2 rounded-full border-black"
+                      placeholder="Max"
+                      className="border-2 border-gray-300 w-full text-black rounded-full p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       {...register("maxPrice")}
                     />
                   </div>
                 </div>
-                <div className="flex flex-col gap-4 uppercase p-2">
-                  {categories.map((item, index) => (
-                    <div key={index} className="flex gap-4">
-                      <input
-                        type="checkbox"
-                        id={`kategori-${index}`}
-                        value={item}
-                        {...register("categories")}
-                      />
-                      <label htmlFor={`kategori-${index}`}>{item}</label>
-                    </div>
-                  ))}
+
+                <div className="flex flex-col gap-4">
+                  <p className="font-semibold ">Kategoriler</p>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-3">
+                    {categories.map((item, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          id={`kategori-${index}`}
+                          value={item}
+                          className="text-blue-600 focus:ring-2 focus:ring-blue-500"
+                          {...register("categories")}
+                        />
+                        <label htmlFor={`kategori-${index}`}>{item}</label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
+
                 <button
                   type="submit"
-                  className="mt-4 bg-blue-600 text-white rounded p-2"
+                  className="w-full bg-blue-600  font-semibold rounded-full p-3 hover:bg-blue-700 transition"
                 >
                   Filtrele
                 </button>
+
                 {sideBarFilter.length === 0 && (
-                  <p className="text-red-500 font-semibold">
+                  <p className="text-red-500 font-semibold text-center">
                     Aranan kriterde ürün bulunamamıştır.
                   </p>
                 )}
@@ -149,10 +157,10 @@ function Sidebar({
             />
           </div>
         ) : (
-          <div>hangi sayfaysa artık</div>
+          <div className="text-center">Hangi sayfaysa artık</div>
         )
       ) : (
-        <p>Ürünleri Görmek için Giriş Yapınız</p>
+        <p className="text-center ">Ürünleri görmek için giriş yapınız.</p>
       )}
     </div>
   );

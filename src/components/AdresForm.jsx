@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { useTheme } from "../context/ThemeContext";
 
 function AdresForm({
   adresInfo,
@@ -69,28 +70,28 @@ function AdresForm({
       reset(selectedAdres);
     }
   }, [selectedAdres]);
-
+  const { theme } = useTheme();
   return (
-    <div className="flex flex-col justify-center gap-4 md:flex-row mt-10">
-      <div className="border border-gray-300 shadow-lg rounded-lg p-8 bg-white w-full max-w-lg mx-auto">
-        <h1 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
+    <div
+      className={`${
+        theme === "light" ? "bg-white text-black" : "bg-black text-white"
+      } flex flex-col justify-center gap-4 md:flex-row mt-10 `}
+    >
+      <div className="border border-gray-300 shadow-lg rounded-lg p-8  w-full max-w-lg mx-auto">
+        <h1 className="text-2xl font-semibold mb-6  text-center">
           Adres Bilgileri
         </h1>
         <form onSubmit={handleSubmit(adresSubmitFn)} className="space-y-6">
-          {/* İsim ve Soyisim */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col">
-              <label
-                htmlFor="firstName"
-                className="text-sm font-semibold text-gray-600"
-              >
+              <label htmlFor="firstName" className="text-sm font-semibold ">
                 İsim <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 id="firstName"
                 placeholder="İsminizi girin"
-                className="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out"
+                className="border  text-black border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out"
                 {...register("name", {
                   required: "İsim boş bırakılamaz!",
                   minLength: {
@@ -107,17 +108,14 @@ function AdresForm({
             </div>
 
             <div className="flex flex-col">
-              <label
-                htmlFor="surname"
-                className="text-sm font-semibold text-gray-600"
-              >
+              <label htmlFor="surname" className="text-sm font-semibold ">
                 Soyisim <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 id="surname"
                 placeholder="Soyisminizi girin"
-                className="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out"
+                className="border border-gray-300 text-black rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out"
                 {...register("surname", {
                   required: "Soyisim boş bırakılamaz!",
                   minLength: {
@@ -134,18 +132,14 @@ function AdresForm({
             </div>
           </div>
 
-          {/* İl ve İlçe Seçimi */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col">
-              <label
-                htmlFor="city"
-                className="text-sm font-semibold text-gray-600"
-              >
+              <label htmlFor="city" className="text-sm font-semibold ">
                 İl <span className="text-red-500">*</span>
               </label>
               <select
                 id="city"
-                className="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out"
+                className="border border-gray-300 text-black rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out"
                 {...register("city", {
                   required: "İl seçimi zorunludur!",
                   onChange: handleCityChange,
@@ -166,15 +160,12 @@ function AdresForm({
             </div>
 
             <div className="flex flex-col">
-              <label
-                htmlFor="town"
-                className="text-sm font-semibold text-gray-600"
-              >
+              <label htmlFor="town" className="text-sm font-semibold ">
                 İlçe <span className="text-red-500">*</span>
               </label>
               <select
                 id="town"
-                className="border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out"
+                className="border border-gray-300 text-black rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out"
                 {...register("town", { required: "İlçe seçimi zorunludur!" })}
               >
                 <option value="">İlçe Seçin</option>
@@ -192,19 +183,15 @@ function AdresForm({
             </div>
           </div>
 
-          {/* Adres ve Adres Başlığı */}
           <div className="flex flex-col gap-2">
-            <label
-              htmlFor="adresbasligi"
-              className="text-sm font-semibold text-gray-600"
-            >
+            <label htmlFor="adresbasligi" className="text-sm font-semibold ">
               Adres Başlığı <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               id="adresbasligi"
               placeholder="Adres Başlığı"
-              className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out"
+              className="border border-gray-300 text-black p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out"
               {...register("adresBasligi", {
                 required: "Adres başlığı girmek zorunludur!",
                 minLength: { value: 2, message: "En az 2 karakter olmalı!" },
@@ -216,16 +203,13 @@ function AdresForm({
               </p>
             )}
 
-            <label
-              htmlFor="adres"
-              className="text-sm font-semibold text-gray-600"
-            >
+            <label htmlFor="adres" className="text-sm font-semibold ">
               Adres <span className="text-red-500">*</span>
             </label>
             <textarea
               id="adres"
               placeholder="Adres"
-              className="border border-gray-300 h-20 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out"
+              className="border border-gray-300 h-20 text-black p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out"
               {...register("adresInfo", {
                 required: "Adres alanı boş bırakılamaz!",
                 minLength: {
@@ -241,12 +225,11 @@ function AdresForm({
             )}
           </div>
 
-          {/* Kaydet-Vazgeç Butonu */}
           <div className="flex justify-between">
             <button
               type="button"
               onClick={() => navigate("/sepet")}
-              className="text-gray-600 hover:text-blue-600 transform transition duration-300"
+              className=" hover:text-blue-600 transform transition duration-300"
             >
               Vazgeç
             </button>
@@ -259,11 +242,9 @@ function AdresForm({
           </div>
         </form>
       </div>
-      {/* Kayıtlı adresleri göster */}
+
       <div className="flex flex-col gap-2 mt-4 w-full max-w-lg mx-auto">
-        <h2 className="text-lg font-semibold text-gray-700 mb-2">
-          Kayıtlı Adresler
-        </h2>
+        <h2 className="text-lg font-semibold  mb-2">Kayıtlı Adresler</h2>
         {adresInfo
           .filter((item) => item.userId === loggedUser)
           .map((item, index) => (

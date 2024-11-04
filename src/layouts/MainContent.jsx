@@ -25,9 +25,14 @@ function MainContent({
   orderDetails,
   setOrderDetails,
 }) {
+  const { theme } = useTheme();
   return (
-    <div className="flex flex-col flex-wrap w-full p-4  border-2 border-black rounded-2xl">
-      <div>
+    <div
+      className={`${
+        theme === "light" ? "bg-white text-black" : "bg-black text-white"
+      } flex flex-col w-full p-4 border-2 border-black rounded-2xl shadow-lg `}
+    >
+      <div className="w-full max-w-screen-xl mx-auto">
         <Routes>
           {loggedUser ? (
             <>
@@ -42,6 +47,7 @@ function MainContent({
                   />
                 }
               />
+
               <Route
                 path="/sepet"
                 element={
@@ -52,6 +58,7 @@ function MainContent({
                   />
                 }
               />
+
               <Route
                 path="/sepet/adres"
                 element={
@@ -71,6 +78,7 @@ function MainContent({
                   )
                 }
               />
+
               <Route
                 path="/sepet/odeme"
                 element={
@@ -84,10 +92,12 @@ function MainContent({
                   )
                 }
               />
+
               <Route
                 path="/product/:id"
                 element={<ProductItem sepet={sepet} setSepet={setSepet} />}
               />
+
               <Route
                 path="/order-success"
                 element={<SuccessOrder orderDetails={orderDetails} />}

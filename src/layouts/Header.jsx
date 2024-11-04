@@ -4,6 +4,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import ThemeToggleButton from "../components/ThemeToggleButton";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 
 function Header({ loggedUser, setLoggedUser, sepet, setSepet }) {
   const navigate = useNavigate();
@@ -22,17 +23,23 @@ function Header({ loggedUser, setLoggedUser, sepet, setSepet }) {
     const sil = sepet.filter((item) => item.id !== id);
     setSepet(sil);
   };
-
+  const { theme } = useTheme();
   return (
-    <div className="w-full flex flex-col md:flex-row items-center justify-between border-b-4 border-black p-4 md:p-8 mb-4 relative">
-      <h1 className="font-bold text-xl text-center md:text-left">
+    <div
+      className={`${
+        theme === "light" ? "bg-white text-black" : "bg-black text-white"
+      } w-full flex flex-wrap items-center justify-between border-b-4 border-black p-4 md:p-6 lg:p-8 mb-4 fixed z-50 `}
+    >
+      <h1 className="font-bold text-xl md:text-2xl lg:text-3xl text-center md:text-left">
         WORKINTECH COMMERCE
       </h1>
+
       <div className="flex flex-col md:flex-row items-center gap-4 mt-2 md:mt-0">
         <ThemeToggleButton />
+
         <button
           onClick={() => navigate("/")}
-          className="px-4 py-1 rounded-full border-2 border-black font-bold hover:bg-blue-400 hover:text-white hover:border-none"
+          className="px-4 py-2 rounded-full border-2 border-black font-bold transition-colors duration-200 hover:bg-blue-500 hover:text-white"
         >
           HOME
         </button>
@@ -41,57 +48,67 @@ function Header({ loggedUser, setLoggedUser, sepet, setSepet }) {
           <div className="flex items-center gap-4">
             <button
               onClick={handleLogOut}
-              className="px-4 py-1 rounded-full border-2 border-black font-bold hover:bg-blue-400 hover:text-white hover:border-none"
+              className="px-4 py-2 rounded-full border-2 border-black font-bold transition-colors duration-200 hover:bg-blue-500 hover:text-white"
             >
               LOGOUT
             </button>
-            <p className="text-center border-2 border-black rounded-2xl px-2 flex items-center gap-2">
+
+            <p className="flex items-center gap-2 px-3 py-1 rounded-full border-2 border-black">
               <FaRegUserCircle size={20} />
-              {loggedUser}
+              <span className="font-semibold text-sm">{loggedUser}</span>
             </p>
+
             <div
               onClick={() => setIsCartOpen((prev) => !prev)}
-              className="relative inline-block transform transition duration-300 hover:scale-125 cursor-pointer"
+              className="relative cursor-pointer transform transition-transform duration-300 hover:scale-110"
             >
-              <IoBagHandleOutline size={35} />
+              <IoBagHandleOutline size={30} />
               {sepet?.length > 0 && (
-                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                <span className="absolute -top-1 -right-1 flex items-center justify-center h-5 w-5 text-xs font-bold text-white bg-red-600 rounded-full">
                   {sepet.length}
                 </span>
               )}
             </div>
+
             {isCartOpen && (
-              <div className="absolute right-4 top-44 md:top-16 md:w-64 mt-3 w-full bg-white border border-gray-300 shadow-lg p-4 rounded-lg z-10">
+              <div className="absolute right-0 top-16 mt-3 w-72 md:w-80  border border-gray-300 shadow-lg p-4 rounded-lg z-20">
                 <h3 className="font-bold mb-2">Sepetiniz</h3>
                 {sepet?.length ? (
                   sepet.map((item, index) => (
-                    <div key={index} className="mb-2 border-2 p-2">
-                      <div className="flex gap-2 items-center ">
-                        <img src={item.image} width={50} alt="" />
-                        <p className="text-">{item.title}</p>
-                      </div>
-                      <div className="flex items-center justify-end gap-2 p-2">
-                        <p className="text-sm font-bold text-gray-600">
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-2 mb-2 border border-gray-200 rounded-lg"
+                    >
+                      <img
+                        src={item.image}
+                        alt=""
+                        className="w-12 h-12 rounded-md"
+                      />
+                      <p className="flex-grow mx-2 text-sm font-semibold">
+                        {item.title}
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-bold ">
                           {(item.price * item.adet).toFixed(2)} ₺
                         </p>
                         <button
                           onClick={() => urunCikar(item.id)}
-                          className="flex-shrink-0 transform transition duration-300 hover:scale-125"
+                          className="text-red-600 transform transition-transform duration-300 hover:scale-125"
                         >
-                          <RiDeleteBinLine size={25} />
+                          <RiDeleteBinLine size={20} />
                         </button>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <p>Sepetiniz boş</p>
+                  <p className="text-gray-500">Sepetiniz boş</p>
                 )}
                 <button
                   onClick={() => {
                     navigate("/sepet");
                     setIsCartOpen(false);
                   }}
-                  className="mt-2 w-full py-1 bg-blue-400 text-white font-bold rounded-lg"
+                  className="mt-2 w-full py-2 bg-blue-500 text-white font-bold rounded-lg transition-colors duration-200 hover:bg-blue-600"
                 >
                   Sepete Git
                 </button>
@@ -101,7 +118,7 @@ function Header({ loggedUser, setLoggedUser, sepet, setSepet }) {
         ) : (
           <button
             onClick={handleLogin}
-            className="px-4 py-1 rounded-full border-2 border-black font-bold hover:bg-blue-400 hover:text-white hover:border-none"
+            className="px-4 py-2 rounded-full border-2 border-black font-bold transition-colors duration-200 hover:bg-blue-500 hover:text-white"
           >
             LOGIN
           </button>
