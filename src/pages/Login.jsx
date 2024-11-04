@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext";
 function Login({ setLoggedUser }) {
   const navigate = useNavigate();
   const {
@@ -19,9 +20,13 @@ function Login({ setLoggedUser }) {
   };
 
   const [clicked, setClicked] = useState(false);
-
+  const { theme } = useTheme();
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div
+      className={`${
+        theme === "light" ? "bg-white text-black" : "bg-black text-white"
+      } flex flex-col justify-center items-center `}
+    >
       <h1 className="font-bold text-2xl border-b-2 border-black">LOGIN</h1>
       <form
         action="submit"
@@ -36,7 +41,7 @@ function Login({ setLoggedUser }) {
             id="email"
             type="text"
             placeholder="Email"
-            className="border w-full p-2 rounded-2xl text-sm sm:text-base"
+            className="border w-full text-black p-2 rounded-2xl text-sm sm:text-base"
             {...register("email", {
               required: "Email boş bırakılamaz!",
               pattern: {
@@ -59,7 +64,7 @@ function Login({ setLoggedUser }) {
               id="password"
               type={clicked ? "text" : "password"}
               placeholder="Parola"
-              className="border p-2  w-full  rounded-2xl text-sm sm:text-base"
+              className="border p-2  w-full text-black  rounded-2xl text-sm sm:text-base"
               {...register("password", {
                 required: "Şifre boş bırakılamaz !",
                 minLength: {
