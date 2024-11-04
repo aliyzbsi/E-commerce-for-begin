@@ -28,7 +28,7 @@ function Header({ loggedUser, setLoggedUser, sepet, setSepet }) {
     <div
       className={`${
         theme === "light" ? "bg-white text-black" : "bg-black text-white"
-      } w-full flex flex-wrap items-center justify-center md:justify-between border-b-4 border-black p-4 md:p-6 lg:p-8 mb-4 fixed z-40 `}
+      } w-full flex flex-col md:flex-row flex-wrap items-center justify-center md:justify-between border-b-4 border-black p-4 md:p-6 lg:p-8 mb-4 fixed z-40 `}
     >
       <h1 className="font-bold text-xl md:text-2xl lg:text-3xl text-center md:text-left">
         WORKINTECH COMMERCE
