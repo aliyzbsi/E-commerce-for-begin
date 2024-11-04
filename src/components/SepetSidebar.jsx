@@ -32,6 +32,7 @@ function SepetSidebar({
     hediye100: 100,
     hediye200: 200,
     beyzolisko: 1000,
+    cimbombom: 1905,
   };
   const kargoBedeli = 50;
 
