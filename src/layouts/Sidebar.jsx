@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getFilteredProduct, getProduct } from "../services/apiService";
 import { useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SepetSidebar from "../components/SepetSidebar";
 import { useTheme } from "../context/ThemeContext";
 
@@ -31,7 +31,9 @@ function Sidebar({
   const { register, handleSubmit } = useForm({
     mode: "onChange",
   });
+  const navigate = useNavigate();
   const { theme } = useTheme();
+
   const onSubmit = (data) => {
     const filtered = product.filter((item) => {
       const matchName = data.productName
@@ -157,7 +159,27 @@ function Sidebar({
             />
           </div>
         ) : (
-          <div className="text-center">Hangi sayfaysa artık</div>
+          <div className="flex flex-col gap-2 border-2 p-2">
+            {isLoading && <p>Loading...</p>}
+            {error && <p className="text-red-500">Error loading products</p>}
+            <p className="border-2 text-center font-semibold">
+              Bu ürünleri de görmek isteyebilirsiniz
+            </p>
+            {product
+              .sort(() => 0.5 - Math.random())
+              .slice(0, 5)
+              .map((item) => (
+                <div key={item.id}>
+                  <button
+                    className="flex items-center border-2 border-x-green-400 p-2 hover:bg-green-400 hover:text-white rounded-3xl w-full justify-between"
+                    onClick={() => navigate(`/product/${item.id}`)}
+                  >
+                    <img src={item.image} className="w-12 h-12 rounded-full" />
+                    <p> {item.title}</p>
+                  </button>
+                </div>
+              ))}
+          </div>
         )
       ) : (
         <p className="text-center ">Ürünleri görmek için giriş yapınız.</p>

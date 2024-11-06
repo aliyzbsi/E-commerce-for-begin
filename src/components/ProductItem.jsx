@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getSelectedProduct } from "../services/apiService";
 import { useTheme } from "../context/ThemeContext";
+import { useState } from "react";
 
 function ProductItem({ sepet, setSepet }) {
   const { id } = useParams();

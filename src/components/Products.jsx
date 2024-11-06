@@ -49,13 +49,13 @@ function Products({ products, sideBarFilter, sepet, setSepet }) {
               <p className=" text-sm line-clamp-3 mb-4">{item.description}</p>
 
               <div className="flex justify-between items-center mt-auto">
-                <p className="font-semibold text-lg ">{item.price}₺</p>
+                <p className="font-semibold text-base  ">{item.price}₺</p>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     AddSepet(item);
                   }}
-                  className="bg-green-500 hover:bg-green-400 text-white py-1 px-4 rounded-full transition-colors duration-200"
+                  className="bg-green-500 hover:bg-green-400 text-white py-1 px-2 rounded-full transition-colors duration-200"
                 >
                   Sepete Ekle
                 </button>
