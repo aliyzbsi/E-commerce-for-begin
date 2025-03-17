@@ -55,7 +55,7 @@ export const getProductsByCategory = async (category) => {
     // API'ye gönderilecek kategori adını düzenle
     // Örneğin "Home Decoration" -> "home-decoration" formatına çevir
     const formattedCategory = category.toLowerCase().replace(/\s+/g, "-");
-
+    console.log("formatlanmışmı", formattedCategory);
     const response = await axios.get(
       `${API_BASE_URL}/products/category/${formattedCategory}`
     );
@@ -86,5 +86,18 @@ export const searchProducts = async (query) => {
   } catch (error) {
     console.error(`"${query}" araması yapılırken hata oluştu:`, error);
     return [];
+  }
+};
+
+// Belirli bir ürünü getir
+export const getProductById = async (id) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/products/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Ürün ID: ${id} getirilirken hata oluştu:`, error);
+    throw new Error(
+      "Ürün detayları yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+    );
   }
 };

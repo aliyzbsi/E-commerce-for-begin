@@ -11,6 +11,7 @@ import SuccessOrder from "../components/SuccessOrder";
 import Favorites from "../pages/Favorites";
 import SearchResults from "../pages/SearchResults";
 import UserProfile from "../pages/UserProfile";
+import NotFound from "../pages/NotFound";
 
 function MainContent({
   loggedUser,
@@ -32,10 +33,10 @@ function MainContent({
   return (
     <main
       className={`
-      w-full md:w-2/3 lg:w-3/4 
-      ${theme === "light" ? "bg-white" : "bg-gray-800"}
-      rounded-xl shadow-md p-4 md:p-6 transition-colors duration-300
-    `}
+        w-full md:w-2/3 lg:w-3/4 
+        ${theme === "light" ? "bg-white" : "bg-gray-800"}
+        rounded-xl shadow-md p-4 md:p-6 transition-colors duration-300
+      `}
     >
       <Routes>
         {/* Herkes tarafından erişilebilen rotalar */}
@@ -182,7 +183,7 @@ function MainContent({
           }
         />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </main>
   );

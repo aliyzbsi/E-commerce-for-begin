@@ -1,5 +1,3 @@
-"use client";
-
 import { useNavigate } from "react-router-dom";
 import { useFavorites } from "../context/FavoritesContext";
 import { useTheme } from "../context/ThemeContext";
@@ -90,7 +88,7 @@ function Favorites({ sepet, setSepet, loggedUser }) {
                   {item.title}
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                  {item.category}
+                  {item.category.toUpperCase()}
                 </p>
                 <p className="font-bold text-blue-600 dark:text-blue-400">
                   {item.price.toFixed(2)} ₺

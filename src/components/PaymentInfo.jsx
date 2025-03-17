@@ -1,5 +1,3 @@
-"use client";
-
 import { useForm } from "react-hook-form";
 import chipImage from "../assets/chip.png";
 import { RiVisaLine } from "react-icons/ri";

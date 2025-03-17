@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -141,7 +139,7 @@ function CompareProducts() {
               </h3>
 
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                {product.category || "Kategori Yok"}
+                {product.category.toUpperCase() || "Kategori Yok"}
               </p>
 
               <p className="font-bold text-blue-600 dark:text-blue-400 mb-4">

@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { useLocaleStorage } from "./hooks/useLocaleStorage";
 import Header from "./layouts/Header";

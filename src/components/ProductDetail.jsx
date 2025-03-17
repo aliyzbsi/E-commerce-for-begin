@@ -89,7 +89,7 @@ function ProductDetail({ product, addToCart, isInFavorites, toggleFavorite }) {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="text-sm font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full">
-                {product.category}
+                {product.category.toUpperCase()}
               </span>
               <span className="text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-3 py-1 rounded-full">
                 {product.brand}

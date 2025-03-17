@@ -93,21 +93,19 @@ function Products({ products, sepet, setSepet, loggedUser }) {
                 {typeof item.category === "object"
                   ? item.category.name ||
                     item.category.slug ||
-                    JSON.stringify(item.category)
-                  : item.category}
+                    JSON.stringify(item.category.toUpperCase())
+                  : item.category.toUpperCase()}
               </span>
-
+              {/* Stok durumu */}
+              {item.stock <= 5 && item.stock > 0 && (
+                <span className="absolute top-10 left-2 z-10 text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-3 py-1 rounded-full">
+                  Son {item.stock} ürün
+                </span>
+              )}
               {/* İndirim etiketi */}
               {item.discountPercentage > 0 && (
                 <span className="absolute top-2 right-2 z-10 text-xs font-bold bg-red-500 text-white px-2 py-1 rounded-full">
                   %{Math.round(item.discountPercentage)} İndirim
-                </span>
-              )}
-
-              {/* Stok durumu */}
-              {item.stock <= 5 && item.stock > 0 && (
-                <span className="absolute bottom-2 left-2 z-10 text-xs font-medium bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-3 py-1 rounded-full">
-                  Son {item.stock} ürün
                 </span>
               )}
 
