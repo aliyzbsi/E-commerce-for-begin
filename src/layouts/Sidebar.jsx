@@ -1,5 +1,3 @@
-"use client";
-
 import { useQuery } from "@tanstack/react-query";
 import { getFilteredProduct, getProduct } from "../services/api";
 import { useForm } from "react-hook-form";
@@ -102,7 +100,7 @@ function Sidebar({
   return (
     <aside
       className={`
-      w-full md:w-1/3 lg:w-1/4 h-fit sticky top-24
+      w-full md:w-1/3 lg:w-1/4 h-fit  top-24 
       ${theme === "light" ? "bg-white" : "bg-gray-800"}
       rounded-xl shadow-md overflow-hidden transition-colors duration-300
     `}
