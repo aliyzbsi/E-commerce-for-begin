@@ -362,7 +362,11 @@ function Header({ loggedUser, setLoggedUser, sepet, setSepet }) {
                 className="flex items-center gap-3 p-2 mb-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
               >
                 <img
-                  src={item.images[0] || "/placeholder.svg"}
+                  src={
+                    item.images && item.images.length > 0
+                      ? item.images[0]
+                      : item.thumbnail || "/placeholder.svg"
+                  }
                   alt={item.title}
                   className="w-12 h-12 object-contain rounded-md bg-white p-1"
                 />

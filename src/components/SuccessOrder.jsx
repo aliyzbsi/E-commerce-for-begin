@@ -67,9 +67,13 @@ function SuccessOrder({ orderDetails = {} }) {
                 >
                   <div className="w-16 h-16 bg-white rounded-md p-2 flex items-center justify-center">
                     <img
-                      src={item.images[0] || "/placeholder.svg"}
-                      className="max-h-full max-w-full object-contain"
+                      src={
+                        item.images && item.images.length > 0
+                          ? item.images[0]
+                          : item.thumbnail || "/placeholder.svg"
+                      }
                       alt={item.title}
+                      className="max-h-full max-w-full object-contain"
                     />
                   </div>
                   <div className="flex-grow min-w-0">

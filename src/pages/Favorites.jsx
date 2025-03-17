@@ -72,9 +72,13 @@ function Favorites({ sepet, setSepet, loggedUser }) {
                 onClick={() => navigate(`/product/${item.id}`)}
               >
                 <img
-                  src={item.images[0] || "/placeholder.svg"}
-                  className="max-h-full max-w-full object-contain"
+                  src={
+                    item.images && item.images.length > 0
+                      ? item.images[0]
+                      : item.thumbnail || "/placeholder.svg"
+                  }
                   alt={item.title}
+                  className="max-h-full max-w-full object-contain"
                 />
               </div>
 
