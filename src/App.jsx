@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { useLocaleStorage } from "./hooks/useLocaleStorage";
 import Header from "./layouts/Header";
@@ -11,28 +13,30 @@ const queryClient = new QueryClient();
 function App() {
   const [loggedUser, setLoggedUser] = useLocaleStorage("user", "");
   const [sepet, setSepet] = useLocaleStorage("sepet", []);
-
   const [sideBarFilter, setSideBarFilter] = useState([]);
   const [adresInfo, setAdresInfo] = useLocaleStorage("adres", []);
-  const [orderDetails, setOrderDetails] = useState([]);
-
+  const [orderDetails, setOrderDetails] = useLocaleStorage("orders", []);
   const [selectedAdres, setSelectedAdres] = useLocaleStorage(
     "selectedAdres",
     null
   );
   const [cardInfo, setCardInfo] = useLocaleStorage("myCard", null);
   const { theme } = useTheme();
+
   useEffect(() => {
     if (!sepet) {
       setSepet([]);
     }
   }, [sepet]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <div
         className={`${
-          theme === "light" ? "bg-white text-black" : "bg-black text-white"
-        } min-h-screen h-full flex flex-col`}
+          theme === "light"
+            ? "bg-gray-50 text-gray-900"
+            : "bg-gray-900 text-gray-100"
+        } min-h-screen transition-colors duration-300`}
       >
         <Header
           loggedUser={loggedUser}
@@ -41,7 +45,7 @@ function App() {
           setSepet={setSepet}
         />
 
-        <div className="flex flex-col mt-44 md:mt-2 md:flex-row gap-4 md:gap-6 lg:gap-8 w-full max-w-screen-4xl mx-auto px-4 pt-20 md:pt-32 lg:pt-40 pb-10">
+        <div className="container mx-auto px-4 pt-24 pb-10 flex flex-col md:flex-row gap-6">
           <Sidebar
             loggedUser={loggedUser}
             sideBarFilter={sideBarFilter}

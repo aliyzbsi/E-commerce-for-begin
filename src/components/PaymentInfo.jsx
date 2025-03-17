@@ -1,11 +1,17 @@
+"use client";
+
 import { useForm } from "react-hook-form";
 import chipImage from "../assets/chip.png";
 import { RiVisaLine } from "react-icons/ri";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { useTheme } from "../context/ThemeContext";
+import { FaCreditCard, FaUser, FaCalendarAlt, FaLock } from "react-icons/fa";
 
 function PaymentInfo({ setCardInfo }) {
+  const { theme } = useTheme();
+  const [cvcActive, setCvcActive] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -21,7 +27,6 @@ function PaymentInfo({ setCardInfo }) {
       cvc: "",
     },
   });
-  const [cvcActive, setCvcActive] = useState(false);
 
   const currentYear = new Date().getFullYear();
   const lastTwoDigits = currentYear % 100;
@@ -43,11 +48,9 @@ function PaymentInfo({ setCardInfo }) {
       .trim();
   };
 
-  useEffect(() => {}, [cvcActive]);
-
   const kartSubmit = (data) => {
     setCardInfo(data);
-    toast.success("başarılı");
+    toast.success("Kart bilgileri kaydedildi");
   };
 
   const handleCardNumberChange = (e) => {
@@ -56,200 +59,268 @@ function PaymentInfo({ setCardInfo }) {
     value = value.replace(/(\d{4})(?=\d)/g, "$1 ");
     setValue("kkNo", value);
   };
-  const { theme } = useTheme();
 
   return (
-    <div
-      className={`${
-        theme === "light" ? "bg-white text-black" : "bg-black text-white"
-      } flex flex-col md:flex-row items-center gap-4 p-4 `}
-    >
-      <form
-        onSubmit={handleSubmit(kartSubmit)}
-        className="w-full md:w-1/2 border shadow-lg rounded-lg p-6"
-      >
-        <h2 className="text-xl font-semibold mb-4">Kredi Kartı Bilgileri</h2>
+    <div className="max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6 flex items-center gap-2">
+        <FaCreditCard />
+        Ödeme Bilgileri
+      </h1>
 
-        <div className="flex flex-col mb-4">
-          <label htmlFor="cardNumber" className="text-sm font-medium">
-            Kredi Kartı Numarası <span className="text-red-500">*</span>
-          </label>
-          <input
-            id="cardNumber"
-            type="text"
-            placeholder="Kart Numarası"
-            className="border-2 border-gray-300 text-black rounded-lg px-4 py-2 mt-1"
-            {...register("kkNo", {
-              required: "Kart numarası zorunludur",
-              pattern: {
-                value: /^(?:\d{4}\s?){4}$/,
-                message: "Kart numarası yalnızca rakamlardan oluşmalıdır",
-              },
-            })}
-            onChange={handleCardNumberChange}
-          />
-          {errors.kkNo && (
-            <span className="text-red-500 text-sm">{errors.kkNo.message}</span>
-          )}
-        </div>
-
-        <div className="flex flex-col mb-4">
-          <label htmlFor="cardHolder" className="text-sm font-medium">
-            Kart Sahibinin Adı ve Soyadı <span className="text-red-500">*</span>
-          </label>
-          <input
-            id="cardHolder"
-            type="text"
-            placeholder="Kart Sahibinin Adı ve Soyadı"
-            className="border-2 border-gray-300 text-black rounded-lg px-4 py-2 mt-1"
-            {...register("kartSahAdSoyad", {
-              required: "Kart sahibi adı zorunludur",
-              minLength: {
-                value: 6,
-                message: "Ad ve soyad en az 6 karakter olmalıdır",
-              },
-            })}
-          />
-          {errors.kartSahAdSoyad && (
-            <span className="text-red-500 text-sm">
-              {errors.kartSahAdSoyad.message}
-            </span>
-          )}
-        </div>
-
-        <div className="flex justify-around flex-wrap items-center gap-4 mb-4">
-          <div className="flex flex-col w-1/3">
-            <label htmlFor="ay" className="text-sm font-medium">
-              Ay
-            </label>
-            <select
-              {...register("ay", { required: "Zorunlu !" })}
-              className="border-2 border-gray-300 rounded-lg text-black px-4 py-2 mt-1"
-            >
-              <option value="">Ay-SKT</option>
-              {[...Array(12)].map((_, i) => (
-                <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
-                  {String(i + 1).padStart(2, "0")}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="flex flex-col w-1/3">
-            <label htmlFor="yil" className="text-sm font-medium">
-              Yıl
-            </label>
-            <select
-              {...register("yil", { required: "Zorunlu !" })}
-              className="border-2 border-gray-300 text-black rounded-lg px-4 py-2 mt-1"
-            >
-              <option value="">Yıl-SKT</option>
-              {[...Array(21)].map((_, i) => (
-                <option key={i} value={lastTwoDigits + i}>
-                  {lastTwoDigits + i}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="flex flex-col w-1/3">
-            <label htmlFor="cvc" className="text-sm font-medium">
-              CVC (Güvenlik Kodu) <span className="text-red-500">*</span>
-            </label>
-            <input
-              id="cvc"
-              type="text"
-              placeholder="CVC"
-              maxLength={3}
-              minLength={3}
-              className="border-2 border-gray-300 text-black rounded-lg px-4 py-2 mt-1"
-              onFocus={() => setCvcActive(true)}
-              onInput={(e) => {
-                e.target.value = e.target.value
-                  .replace(/[^0-9]/g, "")
-                  .slice(0, 3);
-              }}
-              {...register("cvc", {
-                required: "CVC zorunludur",
-                validate: {
-                  length: (value) =>
-                    value.length === 3 || "CVC 3 haneli olmalıdır",
-                },
-                onBlur: () => {
-                  setCvcActive(false);
-                },
-              })}
-            />
-            {errors.cvc && (
-              <span className="text-red-500 text-sm">{errors.cvc.message}</span>
-            )}
-          </div>
-        </div>
-        <div className=" flex justify-end">
-          <button
-            type="submit"
-            className="bg-blue-600  text-white rounded-lg px-4 py-2 mt-4 hover:bg-blue-700 transition duration-200"
-          >
-            Kontrol Et
-          </button>
-        </div>
-      </form>
-
-      <div className="border-2 w-full md:w-1/2 h-60  rounded-xl flex flex-col justify-between p-4 overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div
-          className={`w-full h-full transition-transform duration-600 ${
-            cvcActive ? "animate-flip" : ""
-          }`}
+          className={`
+          rounded-lg shadow-md overflow-hidden order-2 md:order-1
+          ${theme === "light" ? "bg-white" : "bg-gray-800"}
+        `}
         >
-          <div
-            className={`w-full h-full transition-transform duration-600 ${
-              cvcActive ? "" : "animate-flip"
-            }`}
-          >
-            {cvcActive ? (
-              <div className="flex flex-col justify-between h-full">
-                <div className="w-full h-10 bg-black mb-2"></div>
-                <div className="flex flex-col items-end">
-                  <p className="font-bold">CVV</p>
-                  <div className="p-2 w-full h-10 border-2 border-black rounded-xl">
-                    <p className="text-end">{cvc.replace(/./g, "*")}</p>
-                  </div>
-                  <RiVisaLine size={60} />
-                </div>
-              </div>
-            ) : (
-              <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between mb-2">
-                  <img src={chipImage} width={35} alt="Chip" />
-                  <RiVisaLine size={60} />
-                </div>
-                <div className="border-2 text-center p-2 mb-2">
-                  <p style={{ letterSpacing: "0.20em" }}>
-                    {maskCardNumber(kkNo)}
+          <div className="bg-blue-600 p-4 text-white">
+            <h2 className="font-medium">Kart Bilgilerinizi Girin</h2>
+          </div>
+
+          <form onSubmit={handleSubmit(kartSubmit)} className="p-6 space-y-4">
+            <div className="space-y-1">
+              <label
+                htmlFor="cardNumber"
+                className="text-sm font-medium flex items-center gap-1"
+              >
+                <FaCreditCard className="text-blue-500" />
+                Kart Numarası <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="cardNumber"
+                type="text"
+                placeholder="1234 5678 9012 3456"
+                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                {...register("kkNo", {
+                  required: "Kart numarası zorunludur",
+                  pattern: {
+                    value: /^(?:\d{4}\s?){4}$/,
+                    message: "Geçerli bir kart numarası giriniz",
+                  },
+                })}
+                onChange={handleCardNumberChange}
+              />
+              {errors.kkNo && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.kkNo.message}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-1">
+              <label
+                htmlFor="cardHolder"
+                className="text-sm font-medium flex items-center gap-1"
+              >
+                <FaUser className="text-blue-500" />
+                Kart Sahibinin Adı ve Soyadı{" "}
+                <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="cardHolder"
+                type="text"
+                placeholder="Ad Soyad"
+                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                {...register("kartSahAdSoyad", {
+                  required: "Kart sahibi adı zorunludur",
+                  minLength: {
+                    value: 6,
+                    message: "Ad ve soyad en az 6 karakter olmalıdır",
+                  },
+                })}
+              />
+              {errors.kartSahAdSoyad && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.kartSahAdSoyad.message}
+                </p>
+              )}
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-1 col-span-1">
+                <label
+                  htmlFor="ay"
+                  className="text-sm font-medium flex items-center gap-1"
+                >
+                  <FaCalendarAlt className="text-blue-500" />
+                  Ay
+                </label>
+                <select
+                  id="ay"
+                  {...register("ay", { required: "Zorunlu!" })}
+                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Ay</option>
+                  {[...Array(12)].map((_, i) => (
+                    <option key={i + 1} value={String(i + 1).padStart(2, "0")}>
+                      {String(i + 1).padStart(2, "0")}
+                    </option>
+                  ))}
+                </select>
+                {errors.ay && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.ay.message}
                   </p>
+                )}
+              </div>
+
+              <div className="space-y-1 col-span-1">
+                <label htmlFor="yil" className="text-sm font-medium">
+                  Yıl
+                </label>
+                <select
+                  id="yil"
+                  {...register("yil", { required: "Zorunlu!" })}
+                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Yıl</option>
+                  {[...Array(10)].map((_, i) => (
+                    <option key={i} value={lastTwoDigits + i}>
+                      {lastTwoDigits + i}
+                    </option>
+                  ))}
+                </select>
+                {errors.yil && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.yil.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-1 col-span-1">
+                <label
+                  htmlFor="cvc"
+                  className="text-sm font-medium flex items-center gap-1"
+                >
+                  <FaLock className="text-blue-500" />
+                  CVC
+                </label>
+                <input
+                  id="cvc"
+                  type="text"
+                  placeholder="123"
+                  maxLength={3}
+                  className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onFocus={() => setCvcActive(true)}
+                  // onBlur olayını doğrudan React Hook Form ile entegre edelim
+                  {...register("cvc", {
+                    required: "CVC zorunludur",
+                    validate: {
+                      length: (value) =>
+                        value.length === 3 || "CVC 3 haneli olmalıdır",
+                    },
+                    onBlur: () => {
+                      // setTimeout kullanarak event queue'nun sonuna atalım
+                      setTimeout(() => setCvcActive(false), 100);
+                    },
+                  })}
+                  // Input değerini sadece rakam olarak sınırlayalım
+                  onChange={(e) => {
+                    e.target.value = e.target.value
+                      .replace(/[^0-9]/g, "")
+                      .slice(0, 3);
+                  }}
+                />
+                {errors.cvc && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.cvc.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium mt-4"
+            >
+              Ödeme Bilgilerini Kaydet
+            </button>
+          </form>
+        </div>
+
+        <div className="order-1 md:order-2">
+          <div
+            className={`
+            w-full h-56 rounded-xl shadow-lg overflow-hidden perspective-1000 transition-all duration-500
+            ${cvcActive ? "rotate-y-180" : ""}
+            ${
+              theme === "light"
+                ? "bg-gradient-to-r from-blue-500 to-purple-600"
+                : "bg-gradient-to-r from-blue-800 to-purple-900"
+            }
+          `}
+          >
+            <div
+              className={`
+              relative w-full h-full transition-all duration-500 transform-style-3d
+              ${cvcActive ? "rotate-y-180" : ""}
+            `}
+            >
+              {/* Front of card */}
+              <div
+                className={`
+                absolute w-full h-full backface-hidden p-6 flex flex-col justify-between
+                ${cvcActive ? "opacity-0" : "opacity-100"}
+              `}
+              >
+                <div className="flex justify-between items-center">
+                  <img
+                    src={chipImage || "/placeholder.svg"}
+                    width={50}
+                    alt="Chip"
+                    className="object-contain"
+                  />
+                  <RiVisaLine size={60} className="text-white" />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-2">
-                    <p className="text-sm font-medium">Kart Sahibi</p>
-                    <p className="font-bold line-clamp-1">
+
+                <div className="text-white text-xl tracking-widest font-medium">
+                  {kkNo || "•••• •••• •••• ••••"}
+                </div>
+
+                <div className="flex justify-between items-end">
+                  <div>
+                    <p className="text-xs text-blue-100 mb-1">Kart Sahibi</p>
+                    <p className="text-white font-medium uppercase tracking-wider">
                       {kartSahAdSoyad || "AD SOYAD"}
                     </p>
                   </div>
+
                   <div className="text-right">
-                    <p>Valid Thru</p>
-                    {ay && yil ? (
-                      <p>
-                        {ay}/{yil}
-                      </p>
-                    ) : ay ? (
-                      <p>{ay}/YY</p>
-                    ) : yil ? (
-                      <p>MM/{yil}</p>
-                    ) : (
-                      <p>MM/YY</p>
-                    )}
+                    <p className="text-xs text-blue-100 mb-1">Son Kullanma</p>
+                    <p className="text-white">
+                      {ay ? ay : "MM"}/{yil ? yil : "YY"}
+                    </p>
                   </div>
                 </div>
               </div>
-            )}
+
+              {/* Back of card */}
+              <div
+                className={`
+                absolute w-full h-full backface-hidden rotate-y-180
+                ${cvcActive ? "opacity-100" : "opacity-0"}
+              `}
+              >
+                <div className="w-full h-12 bg-black mt-6"></div>
+
+                <div className="px-6 mt-6">
+                  <div className="flex justify-between items-center mb-2">
+                    <RiVisaLine size={40} className="text-white" />
+                    <p className="text-white text-sm">Güvenlik Kodu</p>
+                  </div>
+
+                  <div className="bg-white text-black h-10 rounded flex items-center justify-end pr-4">
+                    <p className="font-mono">{cvc || "•••"}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+            <p>Kart bilgileriniz güvenli bir şekilde saklanır.</p>
+            <p>CVC kodunu görmek için CVC alanına tıklayın.</p>
           </div>
         </div>
       </div>
