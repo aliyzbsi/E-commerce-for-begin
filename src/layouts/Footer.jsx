@@ -160,19 +160,19 @@ function Footer() {
               <li className="flex items-start">
                 <FaMapMarkerAlt className="text-blue-600 dark:text-blue-400 mt-1 mr-2" />
                 <span className="text-gray-600 dark:text-gray-300">
-                  Atatürk Cad. No:123, 34000 İstanbul, Türkiye
+                  Adres Satırı
                 </span>
               </li>
               <li className="flex items-center">
                 <FaPhone className="text-blue-600 dark:text-blue-400 mr-2" />
                 <span className="text-gray-600 dark:text-gray-300">
-                  +90 212 123 45 67
+                  Telefon numarası
                 </span>
               </li>
               <li className="flex items-center">
                 <FaEnvelope className="text-blue-600 dark:text-blue-400 mr-2" />
                 <span className="text-gray-600 dark:text-gray-300">
-                  info@eticaret.com
+                  email.com
                 </span>
               </li>
             </ul>
@@ -184,13 +184,6 @@ function Footer() {
             <p className="text-gray-600 dark:text-gray-300 text-sm">
               &copy; {currentYear} E-Ticaret. Tüm hakları saklıdır.
             </p>
-            <div className="mt-4 md:mt-0">
-              <img
-                src="/images/payment-methods.png"
-                alt="Ödeme Yöntemleri"
-                className="h-8"
-              />
-            </div>
           </div>
         </div>
       </div>

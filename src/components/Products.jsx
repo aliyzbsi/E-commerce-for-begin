@@ -1,5 +1,3 @@
-"use client";
-
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { FaShoppingCart, FaStar, FaStarHalfAlt, FaTag } from "react-icons/fa";

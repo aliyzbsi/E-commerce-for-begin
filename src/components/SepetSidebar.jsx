@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -38,7 +36,11 @@ function SepetSidebar({
   const araToplam =
     sepet && sepet.length > 0
       ? sepet
-          .map((item) => item.price * item.adet)
+          .map(
+            (item) =>
+              (item.price - (item.price * item.discountPercentage) / 100) *
+              item.adet
+          )
           .reduce((acc, item) => acc + item, 0)
       : 0;
 
@@ -109,21 +111,29 @@ function SepetSidebar({
           return;
         }
 
+        // Sipariş detaylarını oluştur
+        const newOrder = {
+          sepet: [...sepet], // Sepet verilerinin kopyasını al
+          selectedAdres,
+          timestamp: Date.now(),
+        };
+
+        // Sipariş detaylarını state'e ekle
         setOrderDetails((prevOrders) => {
           const existingOrders = Array.isArray(prevOrders) ? prevOrders : [];
-          return [
-            ...existingOrders,
-            {
-              sepet,
-              selectedAdres,
-              timestamp: Date.now(),
-            },
-          ];
+          return [...existingOrders, newOrder];
         });
+
+        // Sipariş detaylarını localStorage'a da kaydet
+        localStorage.setItem("lastOrder", JSON.stringify(newOrder));
+
+        // Kart bilgilerini ve sepeti temizle
         setCardInfo(null);
         setSepet([]);
         localStorage.setItem("myCard", JSON.stringify(null));
         localStorage.setItem("sepet", JSON.stringify([]));
+
+        // Başarı sayfasına yönlendir
         navigate("/order-success");
         toast.success("Sipariş alındı");
       } else {

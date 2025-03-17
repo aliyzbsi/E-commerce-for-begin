@@ -10,23 +10,56 @@ import {
 import { FaTruckArrowRight } from "react-icons/fa6";
 
 function SuccessOrder({ orderDetails = {} }) {
+  const navigate = useNavigate();
+  const { theme } = useTheme();
+  const [currentOrder, setCurrentOrder] = useState(null);
+
+  useEffect(() => {
+    // Önce prop olarak gelen orderDetails'i kontrol et
+    if (orderDetails && orderDetails.sepet && orderDetails.sepet.length > 0) {
+      setCurrentOrder(orderDetails);
+    } else {
+      // Prop boşsa localStorage'dan son siparişi al
+      const lastOrderFromStorage = localStorage.getItem("lastOrder");
+      if (lastOrderFromStorage) {
+        try {
+          const parsedOrder = JSON.parse(lastOrderFromStorage);
+          setCurrentOrder(parsedOrder);
+        } catch (error) {
+          console.error("Sipariş bilgisi çözümlenemedi:", error);
+        }
+      }
+    }
+  }, [orderDetails]);
+
+  useEffect(() => {
+    // Eğer sipariş bilgisi yoksa ana sayfaya yönlendir
+    if (!currentOrder && !localStorage.getItem("lastOrder")) {
+      const timer = setTimeout(() => {
+        navigate("/");
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [currentOrder, navigate]);
+
+  // Sipariş bilgisi yoksa yükleniyor göster
+  if (!currentOrder) {
+    return (
+      <div className="max-w-4xl mx-auto text-center py-12">
+        <FaCheckCircle className="text-green-500 text-6xl mx-auto mb-4" />
+        <h1 className="text-2xl font-bold">Siparişiniz Alındı!</h1>
+        <p className="text-gray-500 dark:text-gray-400 mt-2">
+          Sipariş detayları yükleniyor...
+        </p>
+      </div>
+    );
+  }
+
   const {
     sepet = [],
     selectedAdres = {},
     timestamp = Date.now(),
-  } = orderDetails;
-
-  const { theme } = useTheme();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (sepet.length === 0) {
-      const timer = setTimeout(() => {
-        navigate("/");
-      }, 0);
-      return () => clearTimeout(timer);
-    }
-  }, [sepet, navigate]);
+  } = currentOrder;
 
   const toplamTutar = sepet.reduce(
     (total, item) => total + item.price * item.adet + 50,

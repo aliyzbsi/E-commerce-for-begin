@@ -1,9 +1,11 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 import Products from "../components/Products";
 import { getFilteredProduct, getProduct } from "../services/api";
 import { useState, useMemo } from "react";
 import { useTheme } from "../context/ThemeContext";
-import { FaSpinner } from "react-icons/fa";
+import { FaSpinner, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import SortAndFilter from "../components/SortAndFilter";
 import HomeSlider from "../components/HomeSlider";
 import FeaturedCategories from "../components/FeaturedCategories";
@@ -15,6 +17,10 @@ function Home({ sepet, sideBarFilter, setSepet, loggedUser }) {
   const [selectedCategory, setSelectedCategory] = useState("Tüm Ürünler");
   const [sortOption, setSortOption] = useState("default");
   const [activeFilters, setActiveFilters] = useState({});
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 20;
 
   // Kategorileri getir
   const {
@@ -36,14 +42,31 @@ function Home({ sepet, sideBarFilter, setSepet, loggedUser }) {
     queryFn: getProduct,
   });
 
+  // Kategori adını veya slug'ını almak için yardımcı fonksiyon
+  const getCategoryName = (category) => {
+    if (typeof category === "string") return category;
+    if (typeof category === "object" && category !== null) {
+      return category.name || category.slug || JSON.stringify(category);
+    }
+    return "";
+  };
+
   // Kategori filtreleme işlevi
   const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
+    // Kategori bir obje ise, slug veya name'i kullan, değilse direkt kategoriyi kullan
+    const categoryValue =
+      typeof category === "object" && category !== null
+        ? category.slug || category.name || JSON.stringify(category)
+        : category;
+
+    setSelectedCategory(categoryValue);
+    setCurrentPage(1); // Reset to first page when changing category
   };
 
   // Sıralama işlevi
   const handleSort = (sortValue) => {
     setSortOption(sortValue);
+    setCurrentPage(1); // Reset to first page when sorting
   };
 
   // Filtreleme işlevi
@@ -52,15 +75,17 @@ function Home({ sepet, sideBarFilter, setSepet, loggedUser }) {
       ...prev,
       [filterKey]: filterValue,
     }));
+    setCurrentPage(1); // Reset to first page when filtering
   };
 
   // Filtreleri temizleme işlevi
   const clearFilters = () => {
     setActiveFilters({});
+    setCurrentPage(1); // Reset to first page when clearing filters
   };
 
   // Ürünleri filtrele ve sırala - useMemo ile optimize et
-  const displayedProducts = useMemo(() => {
+  const filteredAndSortedProducts = useMemo(() => {
     // Temel ürün listesini belirle
     let baseProducts = [];
 
@@ -71,17 +96,11 @@ function Home({ sepet, sideBarFilter, setSepet, loggedUser }) {
       baseProducts = allProducts.filter((item) => {
         if (selectedCategory === "Tüm Ürünler") return true;
 
-        const itemCategory =
-          typeof item.category === "object" && item.category !== null
-            ? item.category.name ||
-              item.category.slug ||
-              JSON.stringify(item.category)
-            : item.category;
+        // Ürünün kategorisini string olarak al
+        const itemCategory = getCategoryName(item.category).toLowerCase();
 
-        return (
-          itemCategory === selectedCategory ||
-          itemCategory.toLowerCase() === selectedCategory.toLowerCase()
-        );
+        // selectedCategory her zaman string olmalı
+        return itemCategory === selectedCategory.toLowerCase();
       });
     } else {
       return [];
@@ -169,6 +188,123 @@ function Home({ sepet, sideBarFilter, setSepet, loggedUser }) {
     return sortedProducts;
   }, [allProducts, sideBarFilter, selectedCategory, sortOption, activeFilters]);
 
+  // Pagination calculations
+  const totalProducts = filteredAndSortedProducts.length;
+  const totalPages = Math.ceil(totalProducts / productsPerPage);
+
+  // Get current page products
+  const displayedProducts = useMemo(() => {
+    const indexOfLastProduct = currentPage * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    return filteredAndSortedProducts.slice(
+      indexOfFirstProduct,
+      indexOfLastProduct
+    );
+  }, [filteredAndSortedProducts, currentPage, productsPerPage]);
+
+  // Change page
+  const paginate = (pageNumber) => {
+    // Ensure page number is within valid range
+    if (pageNumber < 1) pageNumber = 1;
+    if (pageNumber > totalPages) pageNumber = totalPages;
+
+    setCurrentPage(pageNumber);
+    // Scroll to top when changing page
+    window.scrollTo({
+      top: document.getElementById("products-section")?.offsetTop - 100 || 0,
+      behavior: "smooth",
+    });
+  };
+
+  // Pagination component
+  const Pagination = () => {
+    if (totalPages <= 1) return null;
+
+    // Calculate page range to display
+    let startPage = Math.max(1, currentPage - 2);
+    const endPage = Math.min(totalPages, startPage + 4);
+
+    // Adjust start page if end page is maxed out
+    if (endPage === totalPages) {
+      startPage = Math.max(1, endPage - 4);
+    }
+
+    const pageNumbers = [];
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <div className="flex justify-center items-center mt-8 space-x-2">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`p-2 rounded-md ${
+            currentPage === 1
+              ? "text-gray-400 cursor-not-allowed"
+              : "text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/20"
+          }`}
+          aria-label="Previous page"
+        >
+          <FaChevronLeft />
+        </button>
+
+        {startPage > 1 && (
+          <>
+            <button
+              onClick={() => paginate(1)}
+              className={`px-3 py-1 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/20`}
+            >
+              1
+            </button>
+            {startPage > 2 && <span className="px-2 text-gray-500">...</span>}
+          </>
+        )}
+
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            onClick={() => paginate(number)}
+            className={`px-3 py-1 rounded-md ${
+              currentPage === number
+                ? "bg-blue-600 text-white"
+                : "hover:bg-blue-100 dark:hover:bg-blue-900/20"
+            }`}
+          >
+            {number}
+          </button>
+        ))}
+
+        {endPage < totalPages && (
+          <>
+            {endPage < totalPages - 1 && (
+              <span className="px-2 text-gray-500">...</span>
+            )}
+            <button
+              onClick={() => paginate(totalPages)}
+              className={`px-3 py-1 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/20`}
+            >
+              {totalPages}
+            </button>
+          </>
+        )}
+
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={`p-2 rounded-md ${
+            currentPage === totalPages
+              ? "text-gray-400 cursor-not-allowed"
+              : "text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/20"
+          }`}
+          aria-label="Next page"
+        >
+          <FaChevronRight />
+        </button>
+      </div>
+    );
+  };
+
   if (isLoadingCategories || isLoadingProducts) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -215,9 +351,10 @@ function Home({ sepet, sideBarFilter, setSepet, loggedUser }) {
           </button>
 
           {categories.map((category, index) => {
-            const categoryName =
+            const categoryName = getCategoryName(category);
+            const categoryValue =
               typeof category === "object" && category !== null
-                ? category.name || category.slug || JSON.stringify(category)
+                ? category.slug || category.name || JSON.stringify(category)
                 : category;
 
             return (
@@ -226,12 +363,15 @@ function Home({ sepet, sideBarFilter, setSepet, loggedUser }) {
                 className={`
                   px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap
                   ${
-                    selectedCategory === categoryName
+                    selectedCategory === categoryValue
                       ? "bg-blue-600 text-white"
                       : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
                   }
                 `}
-                onClick={() => handleCategoryChange(categoryName)}
+                onClick={() => {
+                  console.log(category);
+                  handleCategoryChange(category);
+                }}
               >
                 {categoryName}
               </button>
@@ -247,12 +387,58 @@ function Home({ sepet, sideBarFilter, setSepet, loggedUser }) {
         clearFilters={clearFilters}
       />
 
-      <Products
-        products={displayedProducts}
-        sepet={sepet}
-        setSepet={setSepet}
-        loggedUser={loggedUser}
-      />
+      <div id="products-section">
+        {/* Product count and pagination info */}
+        <div className="flex justify-between items-center mb-4">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Toplam {totalProducts} ürün bulundu
+            {totalPages > 1 && ` • Sayfa ${currentPage}/${totalPages}`}
+          </p>
+
+          {/* Mobile pagination controls */}
+          {totalPages > 1 && (
+            <div className="flex items-center gap-2 md:hidden">
+              <button
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`p-2 rounded-md ${
+                  currentPage === 1
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/20"
+                }`}
+                aria-label="Previous page"
+              >
+                <FaChevronLeft />
+              </button>
+              <span className="text-sm">
+                {currentPage}/{totalPages}
+              </span>
+              <button
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`p-2 rounded-md ${
+                  currentPage === totalPages
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/20"
+                }`}
+                aria-label="Next page"
+              >
+                <FaChevronRight />
+              </button>
+            </div>
+          )}
+        </div>
+
+        <Products
+          products={displayedProducts}
+          sepet={sepet}
+          setSepet={setSepet}
+          loggedUser={loggedUser}
+        />
+
+        {/* Pagination */}
+        <Pagination />
+      </div>
     </div>
   );
 }

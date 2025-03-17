@@ -7,6 +7,7 @@ import MainContent from "./layouts/MainContent";
 import Sidebar from "./layouts/Sidebar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useTheme } from "./context/ThemeContext";
+import Footer from "./layouts/Footer";
 
 const queryClient = new QueryClient();
 
@@ -45,7 +46,7 @@ function App() {
           setSepet={setSepet}
         />
 
-        <div className="container mx-auto px-4 pt-24 pb-10 flex flex-col md:flex-row gap-6">
+        <div className="container mx-auto px-4 pt-32 pb-10 flex flex-col md:flex-row gap-6">
           <Sidebar
             loggedUser={loggedUser}
             sideBarFilter={sideBarFilter}
@@ -75,6 +76,7 @@ function App() {
             setOrderDetails={setOrderDetails}
           />
         </div>
+        <Footer />
       </div>
     </QueryClientProvider>
   );

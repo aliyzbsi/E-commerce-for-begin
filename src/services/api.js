@@ -6,7 +6,7 @@ const API_BASE_URL = "https://dummyjson.com";
 // Tüm ürünleri getir
 export const getProduct = async () => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/products?limit=100`);
+    const response = await axios.get(`${API_BASE_URL}/products?limit=200`);
     if (!response.data || !Array.isArray(response.data.products)) {
       console.error("Invalid response format from API:", response.data);
       return [];
